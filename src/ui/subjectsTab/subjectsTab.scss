@@ -1,0 +1,6 @@
+@import "../shared/tabContainer/tab-container.mixin";
+
+.subjects-tab {
+  @include tab-container;
+  flex-basis: 30%;
+}

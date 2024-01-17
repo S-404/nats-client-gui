@@ -1,0 +1,5 @@
+@import "../shared/tabContainer/tab-container.mixin";
+
+.servers-tab {
+  @include tab-container;
+}

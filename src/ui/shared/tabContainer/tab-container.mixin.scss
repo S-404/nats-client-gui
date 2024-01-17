@@ -1,0 +1,15 @@
+@import "../colors";
+
+@mixin tab-container {
+  border: 1px $borderFgColor solid;
+  background-color: $bgColor;
+  padding: 1em;
+  margin: 1em .2em .1em;
+
+  position: relative;
+
+  .tab-container__label {
+    position: absolute;
+    top: -.5em;
+  }
+}

@@ -1,0 +1,42 @@
+@import "shared/colors";
+
+.app {
+  background-color: $bgColor;
+  color: $fgColor;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  .header {
+
+  }
+
+  .body {
+    display: flex;
+    justify-items: center;
+
+    .body__left-container {
+      flex-basis: 30%;
+    }
+
+    .body__right-container {
+      flex-basis: 70%;
+      display: flex;
+
+      .tab-container {
+        flex-basis: 50%;
+      }
+    }
+
+  }
+
+  .footer {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    width: 100%;
+  }
+}

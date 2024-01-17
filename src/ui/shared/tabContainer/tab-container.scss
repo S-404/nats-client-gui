@@ -1,0 +1,5 @@
+@import "./tab-container.mixin.scss";
+
+.tab-container {
+  @include tab-container;
+}

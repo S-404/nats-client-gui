@@ -1,0 +1,5 @@
+@import "../shared/tabContainer/tab-container.mixin";
+
+.publish-tab {
+  @include tab-container;
+}
