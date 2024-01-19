@@ -1,5 +1,6 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
+import actions from '../src/app/actions';
 
 // The built directory structure
 //
@@ -27,10 +28,10 @@ function createWindow() {
     autoHideMenuBar: true
   });
 
-  // Test active push message to Renderer-process.
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', (new Date).toLocaleString());
-  });
+  // add app actions
+  for (const actionName of Object.keys(actions)) {
+    ipcMain.handle(actionName, actions[actionName]);
+  }
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
