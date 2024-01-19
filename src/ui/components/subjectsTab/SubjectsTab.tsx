@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
-import './serversTab.scss';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
+import './subjectsTab.scss';
 
-export const ServersTab: FC = () => {
+export const SubjectsTab: FC = () => {
   return (
-    <TabContainer name={'servers'}>
+    <TabContainer name={'subjects'}>
       <></>
     </TabContainer>
   );
 };
+

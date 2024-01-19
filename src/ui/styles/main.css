@@ -29,10 +29,3 @@ body {
     line-height: 1;
     background-color: black;
 }
-
-/* очистка потока для всех контейнеров, внутри которых задано обтекание дочерних элементов */
-header:after, .container:after, footer:after, .widget-posts-list li:after, #subscribe:after {
-    content: "";
-    display: table;
-    clear: both;
-}

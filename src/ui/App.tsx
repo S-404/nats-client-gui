@@ -1,9 +1,11 @@
+import { ServersTab } from './components/serversTab';
+import { SubjectsTab } from './components/subjectsTab';
+import { MessagesTab } from './components/messagesTab';
+import { PublishTab } from './components/publishTab';
+import { LoggerTab } from './components/loggerTab';
+import './styles/main.css';
 import './app.scss';
-import { LoggerTab } from './loggerTab';
-import { MessagesTab } from './messagesTab';
-import { PublishTab } from './publishTab/PublishTab.tsx';
-import { ServersTab } from './serversTab';
-import { SubjectsTab } from './subjectsTab/SubjectsTab.tsx';
+
 
 function App() {
   return (
