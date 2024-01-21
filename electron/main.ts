@@ -31,6 +31,9 @@ function createWindow() {
     autoHideMenuBar: true
   });
 
+  //disable spellchecker
+  win.webContents.session.setSpellCheckerEnabled(false);
+
   // add app actions
   for (const actionName of Object.keys(actions)) {
     ipcMain.handle(actionName, actions[actionName]);
