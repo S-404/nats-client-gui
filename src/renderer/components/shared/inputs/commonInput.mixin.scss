@@ -1,0 +1,37 @@
+@import "../colors";
+
+@mixin common-input {
+  width: 100%;
+  position: relative;
+
+  .title {
+    position: absolute;
+    top: -.5em;
+    left: 1em;
+    color: gray;
+    background-color: $bgColor;
+    padding: 0 .2em;
+  }
+
+  .input {
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+
+    border: 2px solid $inputBorderFgColor;
+    border-radius: .5em;
+    background-color: $bgColor;
+    color: $fgColor;
+    font-size: 12px;
+    resize: none;
+
+    &:hover {
+      border-color: $inputBorderFgColorHover;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: gray;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+@import "../../colors";
+@import "../commonInput.mixin";
+
+.my-input {
+  @include common-input;
+}
+

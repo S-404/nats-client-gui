@@ -8,7 +8,7 @@ interface ITabContainer {
 
 const TabContainer: FC<ITabContainer> = ({ name, children }) => {
   return (
-    <div className={`tab-container ${name}-tab`}>
+    <div className={'tab-container'}>
       <label className={'tab-container__label'}>{name}</label>
       {children}
     </div>

@@ -1,9 +1,9 @@
-@import "../../../styles/colors";
+@import "../colors";
 
 @mixin tab-container {
   border: 1px $borderFgColor solid;
   background-color: $bgColor;
-  padding: 1em;
+  padding: 1.5em 1em;
   margin: 1em .2em .1em;
 
   position: relative;
