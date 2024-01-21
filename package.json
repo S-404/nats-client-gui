@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dayjs": "1.11.10",
     "electron-store": "8.1.0",
     "nats": "^2.18.0",
     "react": "^18.2.0",
