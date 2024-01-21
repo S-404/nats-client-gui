@@ -16,15 +16,11 @@
   .input {
     width: 100%;
     padding: 1em;
-    box-sizing: border-box;
-
     border: 2px solid $inputBorderFgColor;
     border-radius: .5em;
     background-color: $bgColor;
     color: $fgColor;
-    font-size: 12px;
     resize: none;
-
     &:hover {
       border-color: $inputBorderFgColorHover;
     }

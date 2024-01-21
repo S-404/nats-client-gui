@@ -3,5 +3,11 @@
 
 .my-input {
   @include common-input;
+  .input{
+    font-family: monospace;
+    &:disabled{
+      color: gray;
+    }
+  }
 }
 

@@ -1,0 +1,44 @@
+
+.my-button {
+  background-color: black;
+  border: 1px solid #222222;
+  border-radius: 4px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0;
+  outline: none;
+  padding: .5em 1em;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  width: auto;
+  color: white;
+
+  &_blue {
+    color: lightblue;
+  }
+
+  &_green {
+    color: green;
+  }
+
+  &_orange {
+    color: #f56c22;
+  }
+
+  &_red {
+    color: red;
+  }
+
+  &:active {
+    transform: scale(.98);
+  }
+
+  &:disabled {
+    color: gray;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+}
+

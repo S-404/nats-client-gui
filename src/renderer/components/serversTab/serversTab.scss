@@ -1,5 +1,23 @@
 @import "../shared/tabContainer/tab-container.mixin";
 
-.servers-tab {
-  @include tab-container;
+.servers-tab-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .inputs {
+    max-width: 50%;
+    display: flex;
+    flex-direction: row;
+
+    .my-input {
+      margin-right: .5em;
+    }
+  }
+
+  .buttons {
+    .my-button {
+      margin-left: 1em;
+    }
+  }
 }
