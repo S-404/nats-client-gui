@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
 import actions from '../src/app/actions';
+import events from '../src/app/events/events.ts';
+import eventbus from '../src/app/events/eventbus.ts';
+
 
 // The built directory structure
 //
@@ -31,6 +34,13 @@ function createWindow() {
   // add app actions
   for (const actionName of Object.keys(actions)) {
     ipcMain.handle(actionName, actions[actionName]);
+  }
+
+  // add app events
+  for (const eventName of events) {
+    eventbus.on(eventName, (payload) => {
+      win.webContents.send(eventName, payload);
+    });
   }
 
   if (VITE_DEV_SERVER_URL) {
