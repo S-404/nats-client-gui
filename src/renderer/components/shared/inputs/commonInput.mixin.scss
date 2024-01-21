@@ -29,5 +29,9 @@
       outline: none;
       border-color: gray;
     }
+
+    &:read-only {
+      cursor: default;
+    }
   }
 }

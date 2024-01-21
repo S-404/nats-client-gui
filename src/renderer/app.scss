@@ -1,5 +1,11 @@
 @import "components/shared/colors";
 
+$headerHeight: 90px;
+$fullFooterHeight: 180px;
+$fullBodyHeight: calc(100% - 1em - $headerHeight);
+$bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
+
+
 .app {
   background-color: $bgColor;
   color: $fgColor;
@@ -11,19 +17,21 @@
   flex-direction: column;
 
   .header {
-
+    height: $headerHeight;
   }
 
   .body {
     display: flex;
     justify-items: center;
+    height: $bodyHeight;
 
     .body__left-container {
       flex-basis: 30%;
+      display: none;
     }
 
     .body__right-container {
-      flex-basis: 70%;
+      flex-basis: 100%;
       display: flex;
 
       .tab-container {
@@ -34,9 +42,6 @@
   }
 
   .footer {
-    position: absolute;
-    z-index: 1;
-    bottom: 0;
     width: 100%;
   }
 }

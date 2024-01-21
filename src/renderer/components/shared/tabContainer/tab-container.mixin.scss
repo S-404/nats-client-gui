@@ -1,11 +1,10 @@
 @import "../colors";
 
 @mixin tab-container {
-  border: 1px #006226 solid;
+  border: 1px rgba(6, 90, 98, 0.51) solid;
   background-color: $bgColor;
   padding: 1.5em .5em .5em;
   margin: 1em .2em .1em;
-
   position: relative;
 
   .tab-container__label {
