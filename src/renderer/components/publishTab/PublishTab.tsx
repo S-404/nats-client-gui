@@ -1,24 +1,38 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import dispatcher from '../../actions/dispatcher.ts';
+import Subjects from '../../store/subjects.ts';
 import './publishTab.scss';
 
-export const PublishTab: FC = () => {
 
+export const PublishTab: FC = observer(() => {
+  const selected = Subjects.selected;
   const [subject, setSubject] = useState<string>('');
   const [payload, setPayload] = useState<string>('');
 
   const request = async () => {
-    const response = await dispatcher('natsRequest', { subject, payload });
-    console.log(response);
+    Subjects.addIfNotExists({
+      name: subject,
+      payload,
+      method: 'request'
+    });
+    await dispatcher('natsRequest', { subject, payload });
   };
 
   const publish = () => {
 
   };
+
+  useEffect(() => {
+    if (selected) {
+      setSubject(selected.name);
+      setPayload(selected.payload);
+    }
+  }, [selected]);
 
   return (
     <TabContainer name={'Publish message'}>
@@ -57,5 +71,5 @@ export const PublishTab: FC = () => {
       </div>
     </TabContainer>
   );
-};
+});
 

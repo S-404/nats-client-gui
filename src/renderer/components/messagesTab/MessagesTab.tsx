@@ -1,12 +1,14 @@
 import React, { FC, useEffect, useState } from 'react';
+import dayjs from 'dayjs';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import { NATS_MESSAGE_ADD } from '../../../app/events/constants.ts';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
-import dayjs from 'dayjs';
+import Subjects from '../../store/subjects.ts';
 import './messageTab.scss';
 
 export const MessagesTab: FC = () => {
+  const selectedSubject = Subjects.selected;
   const [messages, setMessages] = useState<string[]>([]);
 
   useEffect(() => {
@@ -20,6 +22,12 @@ export const MessagesTab: FC = () => {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (selectedSubject) {
+      setMessages(selectedSubject.messages ?? []);
+    }
+  }, [selectedSubject]);
 
   return (
     <TabContainer name={'Messages'}>

@@ -1,16 +1,17 @@
 import { makeAutoObservable } from 'mobx';
 import { v4 as uuid } from 'uuid';
 
-type SubjectItem = {
-  id: number;
+export type SubjectItem = {
+  id: string;
   name: string;
-  method: string;
+  method: 'request' | 'publish';
   payload?: string;
   messages?: string[];
 }
 
 class SubjectsStore {
   subjects: SubjectItem[] = [];
+  selected: SubjectItem;
 
   constructor() {
     makeAutoObservable(this);
@@ -50,11 +51,15 @@ class SubjectsStore {
     this.subjects.length = 0;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     const targetIndex = this.subjects.findIndex(item => item.id === id);
     if (targetIndex !== -1) {
       this.subjects.splice(targetIndex, 1);
     }
+  }
+
+  selectSubject(subject: SubjectItem) {
+    this.selected = subject;
   }
 }
 
