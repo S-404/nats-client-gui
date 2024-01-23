@@ -1,7 +1,7 @@
 @import "components/shared/colors";
 
 $headerHeight: 90px;
-$fullFooterHeight: 180px;
+$fullFooterHeight: 200px;
 $fullBodyHeight: calc(100% - 1em - $headerHeight);
 $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
 
@@ -15,6 +15,7 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
 
   display: flex;
   flex-direction: column;
+  padding: 1em .5em;
 
   .header {
     height: $headerHeight;
@@ -22,26 +23,26 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
 
   .body {
     display: flex;
-    justify-items: center;
     height: $bodyHeight;
-
+    margin: 1em 0;
     .body__left-container {
-      flex-basis: 30%;
-      display: none;
+      display: flex;
+      max-width: 300px;
     }
 
     .body__right-container {
-      flex-basis: 100%;
       display: flex;
-
-      .tab-container {
-        flex-basis: 50%;
+      width: 100%;
+      .tab-container{
+        margin-left: 5px;
       }
     }
 
   }
 
   .footer {
+    display: flex;
     width: 100%;
+    height: $fullFooterHeight;
   }
 }
