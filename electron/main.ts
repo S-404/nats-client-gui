@@ -1,8 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'node:path';
-import actions from '../src/app/actions';
-import events from '../src/app/events/events.ts';
-import eventbus from '../src/app/events/eventbus.ts';
+import actions from '#app/actions';
+import events from '#app/events/events.ts';
+import eventbus from '#lib/eventbus.ts';
 
 
 // The built directory structure

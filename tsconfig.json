@@ -21,14 +21,14 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": "./",
     "paths": {
+      "#app/*": [
+        "./src/app/*"
+      ],
+      "#renderer/*": [
+        "./src/renderer/*"
+      ],
       "#lib/*": [
         "./src/lib/*"
-      ],
-      "#stores/*": [
-        "./src/stores/*"
-      ],
-      "#types/*": [
-        "./src/types/*"
       ]
     }
   },

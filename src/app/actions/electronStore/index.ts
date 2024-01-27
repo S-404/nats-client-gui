@@ -1,5 +1,5 @@
 import { IpcRendererEvent } from 'electron';
-import store from '../../stores/electronStore.ts';
+import store from '#lib/electronStore.ts';
 
 const electronStoreActions = {
   storeSave: (_: IpcRendererEvent, message: { [key: string]: string }) => store.set(message),

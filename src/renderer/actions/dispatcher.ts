@@ -1,4 +1,4 @@
-import actions from '../../app/actions';
+import actions from '#app/actions';
 
 const actionDispatcher = (
   actionName: keyof typeof actions,

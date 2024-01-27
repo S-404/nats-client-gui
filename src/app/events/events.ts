@@ -1,17 +1,9 @@
-import {
-  LOGGER_ADD,
-  NATS_MESSAGE_ADD,
-  NATS_RESPONSE_ADD,
-  NATS_STATUS_CONNECTED,
-  NATS_SUBJECT_ADD
-} from './constants.ts';
+import * as constants from './constants.ts';
 
-const events = [
-  LOGGER_ADD,
-  NATS_MESSAGE_ADD,
-  NATS_RESPONSE_ADD,
-  NATS_SUBJECT_ADD,
-  NATS_STATUS_CONNECTED,
-];
+const events = [];
+
+for (const eventName of Object.values(constants)) {
+  events.push(eventName);
+}
 
 export default events;
