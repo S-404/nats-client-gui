@@ -3,19 +3,22 @@ import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import actionDispatcher from '../../actions/dispatcher.ts';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
-import { NATS_STATUS_CONNECTED } from '../../../app/events/constants.ts';
+import { observer } from 'mobx-react';
+import { NATS_STATUS_CONNECTED } from '#app/events/constants.ts';
+import NatsClientStore from '#app/stores/NatsClientStore.ts';
 import './serversTab.scss';
 
-export const ServersTab: FC = () => {
+
+export const ServersTab: FC = observer(() => {
+  const { isConnected } = NatsClientStore;
   const [host, setHost] = useState<string>('');
   const [port, setPort] = useState<string>('');
   const [token, setToken] = useState<string>('');
-  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
     window.ipcRenderer.on(NATS_STATUS_CONNECTED, (_, message) => {
-      setIsConnected(!!message);
+      NatsClientStore.setIsConnected(!!message);
     });
   }, []);
 
@@ -61,7 +64,7 @@ export const ServersTab: FC = () => {
 
   return (
     <TabContainer name={'Server connection'}>
-      <div className='servers-tab-container'>
+      <div className="servers-tab-container">
         <div className="inputs">
           <MyInput
             title={'Host'}
@@ -113,4 +116,4 @@ export const ServersTab: FC = () => {
       </div>
     </TabContainer>
   );
-};
+});

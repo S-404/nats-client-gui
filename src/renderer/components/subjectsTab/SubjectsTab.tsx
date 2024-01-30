@@ -1,20 +1,20 @@
 import React, { FC } from 'react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import Subjects, { SubjectItem } from '../../store/subjects.ts';
+import NatsClientStore, { SubjectItem } from '#app/stores/NatsClientStore.ts';
 import { observer } from 'mobx-react';
 import Subject from './subject/Subject.tsx';
 import './subjectsTab.scss';
 
+
 export const SubjectsTab: FC = observer(() => {
-  const { subjects, selected } = Subjects;
+  const { subjects, selectedId } = NatsClientStore;
 
   const selectSubject = (subject: SubjectItem) => {
-    console.log('selectSubject', subject);
-    Subjects.selectSubject(subject);
+    NatsClientStore.setSelectedId(subject.id);
   };
 
   const remove = (id: string) => {
-    Subjects.remove(id);
+    NatsClientStore.removeSubject(id);
   };
 
   return (
@@ -24,7 +24,7 @@ export const SubjectsTab: FC = observer(() => {
           <Subject
             onClick={selectSubject}
             key={item.id}
-            isSelected={selected?.id === item.id}
+            isSelected={selectedId === item.id}
             removeSubject={remove}
             {...item}
           />

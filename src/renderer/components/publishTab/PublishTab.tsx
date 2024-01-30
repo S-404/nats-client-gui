@@ -5,22 +5,23 @@ import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import dispatcher from '../../actions/dispatcher.ts';
-import Subjects from '../../store/subjects.ts';
+import NatsClientStore from '#app/stores/NatsClientStore.ts';
 import './publishTab.scss';
 
 
 export const PublishTab: FC = observer(() => {
-  const selected = Subjects.selected;
+  const { subjects, selectedId, isConnected } = NatsClientStore;
   const [subject, setSubject] = useState<string>('');
   const [payload, setPayload] = useState<string>('');
 
-  const request = async () => {
-    Subjects.addIfNotExists({
+  const request = () => {
+    const newSubject = NatsClientStore.addSubjectIfNotExists({
       name: subject,
       payload,
       method: 'request'
     });
-    await dispatcher('natsRequest', { subject, payload });
+    NatsClientStore.setSelectedId(newSubject.id);
+    dispatcher('natsRequest', { id: newSubject?.id, subject, payload });
   };
 
   const publish = () => {
@@ -28,11 +29,14 @@ export const PublishTab: FC = observer(() => {
   };
 
   useEffect(() => {
-    if (selected) {
-      setSubject(selected.name);
-      setPayload(selected.payload);
+    if (selectedId) {
+      const target = subjects.find(item => item.id === selectedId);
+      if (target) {
+        setSubject(target.name);
+        setPayload(target.payload);
+      }
     }
-  }, [selected]);
+  }, [subjects, selectedId]);
 
   return (
     <TabContainer name={'Publish message'}>
@@ -60,12 +64,13 @@ export const PublishTab: FC = observer(() => {
             text="Request"
             onClick={request}
             color="green"
-            disabled={!subject.length || !payload.length}
+            disabled={!isConnected || !subject?.length}
           />
           <MyButton
             text="Publish"
             onClick={publish}
             color="orange"
+            disabled={!isConnected}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import './loggerTab.scss';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import { LOGGER_ADD } from '../../../app/events/constants.ts';
+import { LOGGER_ADD } from '#app/events/constants.ts';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import './loggerTab.scss'
 
@@ -20,7 +20,7 @@ export const LoggerTab: FC = () => {
 
 
   return (
-    <TabContainer name={'logger'}>
+    <TabContainer name={'Logger'}>
       <div className='logger-tab-container'>
         <MyTextArea
           text={logs.join('\n')}

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { SubjectItem } from '../../../store/subjects.ts';
+import { SubjectItem } from '#app/stores/NatsClientStore.ts';
 import './subject.scss';
 
 interface ISubject extends SubjectItem {
@@ -15,8 +15,8 @@ const Subject: FC<ISubject> = ({ isSelected, onClick, removeSubject, ...subject 
       onClick={() => onClick(subject)}
     >
       <div className="subject-item__header">
-        <div className={`subject-item__method subject-item__method_${subject.method}`}>
-          {subject.method.toUpperCase()}
+        <div className={`subject-item__method subject-item__method_${subject?.method}`}>
+          {subject?.method ? subject.method.toUpperCase() : ''}
         </div>
         <div
           className={'subject-item__remove'}
