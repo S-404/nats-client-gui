@@ -40,7 +40,8 @@ class NatsClientStore {
 
   addSubjectIfNotExists(subject: Omit<SubjectItem, 'id'>): SubjectItem {
     const targetIndex = this.subjects.findIndex(item =>
-      item.name === subject.name
+      item.name === subject.name &&
+      item.method === subject.method
     );
 
     if (targetIndex !== -1) {
@@ -56,6 +57,7 @@ class NatsClientStore {
     if (targetIndex !== -1) {
       this.subjects.splice(targetIndex, 1);
     }
+    this.clearSubjectMessages(id);
   }
 
   setSelectedId(id: string | null) {
