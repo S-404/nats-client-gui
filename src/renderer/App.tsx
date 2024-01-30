@@ -1,8 +1,11 @@
-import { ServersTab } from './components/serversTab';
-import { SubjectsTab } from './components/subjectsTab';
-import { MessagesTab } from './components/messagesTab';
-import { PublishTab } from './components/publishTab';
-import { LoggerTab } from './components/loggerTab';
+import { SubjectsTab } from '#renderer/components/subjectsTab';
+import { MessagesTab } from '#renderer/components/messagesTab';
+import { PublishTab } from '#renderer/components/publishTab';
+import { ServersTab } from '#renderer/components/serversTab';
+import { LoggerTab } from '#renderer/components/loggerTab';
+import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex';
+
+import 'react-reflex/styles.css';
 import './styles/main.css';
 import './app.scss';
 
@@ -13,15 +16,29 @@ function App() {
       <div className="header">
         <ServersTab/>
       </div>
+
       <div className="body">
-        <div className="body__left-container">
-          <SubjectsTab/>
-        </div>
-        <div className="body__right-container">
-          <MessagesTab/>
-          <PublishTab/>
-        </div>
+        <ReflexContainer orientation="vertical">
+
+          <ReflexElement>
+            <SubjectsTab/>
+          </ReflexElement>
+
+          <ReflexSplitter propagate={true}/>
+
+          <ReflexElement>
+            <MessagesTab/>
+          </ReflexElement>
+
+          <ReflexSplitter propagate={true}/>
+
+          <ReflexElement>
+            <PublishTab/>
+          </ReflexElement>
+
+        </ReflexContainer>
       </div>
+
       <div className="footer">
         <LoggerTab/>
       </div>

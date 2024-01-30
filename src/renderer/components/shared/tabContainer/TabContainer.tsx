@@ -10,7 +10,9 @@ const TabContainer: FC<ITabContainer> = ({ name, children }) => {
   return (
     <div className={'tab-container'}>
       <label className={'tab-container__label'}>{name}</label>
-      {children}
+      <div className={'tab-container__content'}>
+        {children}
+      </div>
     </div>
   );
 };

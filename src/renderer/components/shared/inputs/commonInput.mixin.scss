@@ -24,11 +24,13 @@
 
     &:hover {
       border-color: $inputBorderFgColorHover;
+      transition: all .5s ease;
     }
 
     &:focus {
       outline: none;
       border-color: gray;
+      transition: all .5s ease;
     }
 
     &:read-only {

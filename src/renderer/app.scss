@@ -15,7 +15,7 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
 
   display: flex;
   flex-direction: column;
-  padding: 1em .5em;
+  padding: .1em .5em .5em;
 
   .header {
     height: $headerHeight;
@@ -24,22 +24,16 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
   .body {
     display: flex;
     height: $bodyHeight;
-    margin: 1em 0;
 
-    .body__left-container {
-      display: flex;
-      max-width: 300px;
-    }
+    .reflex-splitter {
+      border-color: black;
+      background-color: black;
+      padding: .2em;
 
-    .body__right-container {
-      display: flex;
-      width: 100%;
-
-      .tab-container {
-        margin-left: 5px;
+      &:hover {
+        border-color: gray;
       }
     }
-
   }
 
   .footer {
