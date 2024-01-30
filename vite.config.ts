@@ -6,9 +6,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 
 const aliases = {
-    '#app': path.resolve(__dirname, './src/app'),
-    '#renderer': path.resolve(__dirname, './src/renderer'),
-    '#lib': path.resolve(__dirname, './src/lib'),
+  '#app': path.resolve(__dirname, './src/app'),
+  '#renderer': path.resolve(__dirname, './src/renderer'),
+  '#lib': path.resolve(__dirname, './src/lib'),
 };
 
 // https://vitejs.dev/config/

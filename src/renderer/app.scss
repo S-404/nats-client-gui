@@ -25,6 +25,7 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
     display: flex;
     height: $bodyHeight;
     margin: 1em 0;
+
     .body__left-container {
       display: flex;
       max-width: 300px;
@@ -33,7 +34,8 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
     .body__right-container {
       display: flex;
       width: 100%;
-      .tab-container{
+
+      .tab-container {
         margin-left: 5px;
       }
     }

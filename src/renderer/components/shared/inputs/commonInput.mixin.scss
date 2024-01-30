@@ -21,6 +21,7 @@
     background-color: $bgColor;
     color: $fgColor;
     resize: none;
+
     &:hover {
       border-color: $inputBorderFgColorHover;
     }
