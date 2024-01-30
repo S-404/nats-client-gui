@@ -25,7 +25,13 @@ export const PublishTab: FC = observer(() => {
   };
 
   const publish = () => {
-
+    const newSubject = NatsClientStore.addSubjectIfNotExists({
+      name: subject,
+      payload,
+      method: 'publish'
+    });
+    NatsClientStore.setSelectedId(newSubject.id);
+    dispatcher('natsPublish', { id: newSubject?.id, subject, payload });
   };
 
   useEffect(() => {
