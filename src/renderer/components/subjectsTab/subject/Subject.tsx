@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { SubjectItem } from '#app/stores/NatsClientStore.ts';
+import { SubjectItem } from '#renderer/store/NatsClientStore.ts';
 import './subject.scss';
 
 interface ISubject extends SubjectItem {

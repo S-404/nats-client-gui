@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
+import { NATS_MESSAGE_ADD } from '#app/events/constants.ts';
+import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
-import { NATS_MESSAGE_ADD } from '#app/events/constants.ts';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
-import NatsClientStore from '#app/stores/NatsClientStore.ts';
 import './messageTab.scss';
 
 

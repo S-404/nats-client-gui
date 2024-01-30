@@ -5,7 +5,7 @@ import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import dispatcher from '../../actions/dispatcher.ts';
-import NatsClientStore from '#app/stores/NatsClientStore.ts';
+import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import './publishTab.scss';
 
 

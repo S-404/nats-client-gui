@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import NatsClientStore, { SubjectItem } from '#app/stores/NatsClientStore.ts';
+import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts';
 import { observer } from 'mobx-react';
 import Subject from './subject/Subject.tsx';
 import './subjectsTab.scss';

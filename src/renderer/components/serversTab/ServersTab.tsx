@@ -5,7 +5,7 @@ import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import { observer } from 'mobx-react';
 import { NATS_STATUS_CONNECTED } from '#app/events/constants.ts';
-import NatsClientStore from '#app/stores/NatsClientStore.ts';
+import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import './serversTab.scss';
 
 
