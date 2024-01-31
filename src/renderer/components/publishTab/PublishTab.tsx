@@ -34,6 +34,16 @@ export const PublishTab: FC = observer(() => {
     dispatcher('natsPublish', { id: newSubject?.id, subject, payload });
   };
 
+  const subscribe = () => {
+    const newSubject = NatsClientStore.addSubjectIfNotExists({
+      name: subject,
+      payload,
+      method: 'subscribe'
+    });
+    NatsClientStore.setSelectedId(newSubject.id);
+    dispatcher('natsSubscribe', { id: newSubject?.id, subject });
+  };
+
   useEffect(() => {
     if (selectedId) {
       const target = subjects.find(item => item.id === selectedId);
@@ -76,7 +86,13 @@ export const PublishTab: FC = observer(() => {
             text="Publish"
             onClick={publish}
             color="orange"
-            disabled={!isConnected}
+            disabled={!isConnected || !subject?.length}
+          />
+          <MyButton
+            text="Subscribe"
+            onClick={subscribe}
+            color="red"
+            disabled={!isConnected || !subject?.length}
           />
         </div>
       </div>

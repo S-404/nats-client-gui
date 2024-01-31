@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 export type SubjectItem = {
   id: string;
   name: string;
-  method: 'request' | 'publish';
+  method: 'request' | 'publish' | 'subscribe';
   payload?: string;
 }
 

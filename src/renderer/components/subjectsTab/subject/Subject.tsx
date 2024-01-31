@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { SubjectItem } from '#renderer/store/NatsClientStore.ts';
+import RemoveButton from '#renderer/components/shared/buttons/removeButton/RemoveButton.tsx';
 import './subject.scss';
 
 interface ISubject extends SubjectItem {
   isSelected?: boolean;
   onClick?: (subject: SubjectItem) => void;
-  removeSubject: (id: string) => void;
+  removeSubject: (params: { id: string, subject: string }) => void;
 }
 
 const Subject: FC<ISubject> = ({ isSelected, onClick, removeSubject, ...subject }) => {
@@ -18,11 +19,8 @@ const Subject: FC<ISubject> = ({ isSelected, onClick, removeSubject, ...subject 
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
         </div>
-        <div
-          className={'subject-item__remove'}
-          onClick={() => removeSubject(subject.id)}
-        >
-          {'X'}
+        <div className={'subject-item__remove'}>
+          <RemoveButton onClick={() => removeSubject({ id: subject.id, subject: subject.name })}/>
         </div>
       </div>
       <div className="subject-item__body">

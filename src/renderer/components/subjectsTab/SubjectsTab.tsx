@@ -4,6 +4,7 @@ import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts
 import { observer } from 'mobx-react';
 import Subject from './subject/Subject.tsx';
 import './subjectsTab.scss';
+import dispatcher from '#renderer/actions/dispatcher.ts';
 
 
 export const SubjectsTab: FC = observer(() => {
@@ -13,8 +14,9 @@ export const SubjectsTab: FC = observer(() => {
     NatsClientStore.setSelectedId(subject.id);
   };
 
-  const remove = (id: string) => {
+  const remove = ({ id, subject }: { id: string, subject: string }) => {
     NatsClientStore.removeSubject(id);
+    dispatcher('natsUnsubscribe', { subject });
   };
 
   return (
