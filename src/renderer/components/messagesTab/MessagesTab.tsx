@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import { NATS_MESSAGE_ADD } from '#app/events/constants.ts';
@@ -11,17 +11,24 @@ import './messageTab.scss';
 
 export const MessagesTab: FC = observer(() => {
   const { selectedId, messages: allMessages } = NatsClientStore;
+  const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
   const messages = useMemo(() => {
-    return allMessages
-      .reduce((acc, curr) => {
-        if (curr.subjectId === selectedId) {
-          acc.push(curr.message);
-        }
-        return acc;
-      }, [])
-      .join('\n');
-  }, [allMessages.length, selectedId]);
+    if (isShownAll) {
+      return allMessages
+        .reduce((acc, curr) => {
+          if (curr.subjectId === selectedId) {
+            acc.push(curr.message);
+          }
+          return acc;
+        }, [])
+        .join('\n');
+    }
+
+    const subjectMessages = allMessages.filter(item => item.subjectId === selectedId);
+    return subjectMessages.length >= 1 ? subjectMessages[subjectMessages.length - 1].message : '';
+
+  }, [allMessages.length, selectedId, isShownAll]);
 
   const clear = () => {
     NatsClientStore.clearSubjectMessages(selectedId);
@@ -52,6 +59,11 @@ export const MessagesTab: FC = observer(() => {
             text="Clear"
             color="white"
             onClick={clear}
+          />
+          <MyButton
+            text={isShownAll ? 'Only Latest' : 'Show All'}
+            color={'white'}
+            onClick={() => setIsShownAll(prevState => !prevState)}
           />
         </div>
       </div>
