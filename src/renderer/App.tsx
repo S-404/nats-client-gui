@@ -6,6 +6,7 @@ import { LoggerTab } from '#renderer/components/loggerTab';
 import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex';
 
 import 'react-reflex/styles.css';
+import './styles/react-reflex-override.css'
 import './styles/main.css';
 import './app.scss';
 
@@ -13,36 +14,51 @@ import './app.scss';
 function App() {
   return (
     <div className="app">
-      <div className="header">
-        <ServersTab/>
-      </div>
 
-      <div className="body">
-        <ReflexContainer orientation="vertical">
+      <ReflexContainer orientation="horizontal">
 
-          <ReflexElement>
-            <SubjectsTab/>
-          </ReflexElement>
+        <ReflexElement
+          className="header"
+          maxSize={90}
+          size={90}
+        >
+          <ServersTab/>
+        </ReflexElement>
 
-          <ReflexSplitter propagate={true}/>
+        <ReflexSplitter propagate={true}/>
 
-          <ReflexElement>
-            <MessagesTab/>
-          </ReflexElement>
+        <ReflexElement className="body">
+          <ReflexContainer orientation="vertical">
 
-          <ReflexSplitter propagate={true}/>
+            <ReflexElement>
+              <SubjectsTab/>
+            </ReflexElement>
 
-          <ReflexElement>
-            <PublishTab/>
-          </ReflexElement>
+            <ReflexSplitter propagate={true}/>
 
-        </ReflexContainer>
-      </div>
+            <ReflexElement>
+              <PublishTab/>
+            </ReflexElement>
 
-      <div className="footer">
-        <LoggerTab/>
-      </div>
+            <ReflexSplitter propagate={true}/>
 
+            <ReflexElement>
+              <MessagesTab/>
+            </ReflexElement>
+
+          </ReflexContainer>
+        </ReflexElement>
+
+        <ReflexSplitter propagate={true}/>
+
+        <ReflexElement
+          size={150}
+          className="footer"
+        >
+          <LoggerTab/>
+        </ReflexElement>
+
+      </ReflexContainer>
     </div>
   );
 }

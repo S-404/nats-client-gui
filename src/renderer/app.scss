@@ -13,32 +13,11 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
   width: 100vw;
   overflow: hidden;
 
-  display: flex;
-  flex-direction: column;
   padding: .1em .5em .5em;
 
-  .header {
-    height: $headerHeight;
-  }
+  .header {}
 
-  .body {
-    display: flex;
-    height: $bodyHeight;
+  .body {}
 
-    .reflex-splitter {
-      border-color: black;
-      background-color: black;
-      padding: .2em;
-
-      &:hover {
-        border-color: gray;
-      }
-    }
-  }
-
-  .footer {
-    display: flex;
-    width: 100%;
-    height: $fullFooterHeight;
-  }
+  .footer {}
 }

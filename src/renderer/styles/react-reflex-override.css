@@ -1,0 +1,9 @@
+.reflex-splitter {
+    border-color: black !important;
+    background-color: black !important;
+    padding: .15em;
+}
+
+.reflex-splitter:hover {
+    border-color: gray !important;
+}
