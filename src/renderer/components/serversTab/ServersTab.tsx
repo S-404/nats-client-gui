@@ -101,13 +101,13 @@ export const ServersTab: FC = observer(() => {
                   text={'Connect'}
                   onClick={connect}
                   color={'green'}
-                  disabled={!host || !port || !token}
+                  disabled={!host || !port}
                 />
                 <MyButton
                   text={isSaved ? 'Saved' : 'Save'}
                   onClick={storeSave}
                   color={isSaved ? 'white' : 'green'}
-                  disabled={!host || !port || !token}
+                  disabled={!host || !port}
                 />
               </>
             }
