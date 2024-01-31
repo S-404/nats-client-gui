@@ -8,11 +8,14 @@
   //width: 100%;
   cursor: pointer;
   user-select: none;
+  overflow: hidden;
+
   transition: all .5s ease;
 
   &:hover {
     border-color: #5e5e5e;
     transition: all .5s ease;
+
     .subject-item__header {
       .subject-item__remove {
         display: block;
@@ -43,6 +46,10 @@
 
       &_publish {
         color: #f56c22;
+      }
+
+      &_subscribe {
+        color: #a84a4a;
       }
     }
 
