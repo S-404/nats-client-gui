@@ -1,7 +1,7 @@
 import { connect, Empty, NatsConnection, StringCodec, Subscription } from 'nats';
 import logger from './logger.ts';
 import eventbus from './eventbus.ts';
-import { NATS_MESSAGE_ADD, NATS_PACKET_ADD, NATS_STATUS_CONNECTED } from '#app/events/constants.ts';
+import { NATS_MESSAGE_ADD, NATS_STATUS_CONNECTED } from '#app/events/constants.ts';
 
 export type  Server = {
   host: string;
@@ -29,6 +29,7 @@ export type NatsCommonRequest = {
 class NatsGateway {
   #conn: NatsConnection;
   #subscription: Subscription;
+  #subscribers: { [subject: string]: string } = {}; // {[subject]: subjectId}
 
   async connect(config: Server) {
     const server = `${config?.host || 'localhost'}:${config?.port || 4222}`;
@@ -59,6 +60,7 @@ class NatsGateway {
       await this.#conn?.close();
       this.#conn = undefined;
       this.#subscription = undefined;
+      this.#subscribers = {};
       logger(`Disconnected...`);
     }
     eventbus.emit(NATS_STATUS_CONNECTED, false);
@@ -94,21 +96,34 @@ class NatsGateway {
     return decoded;
   }
 
+  async subscribe({ subject, id }: Pick<NatsCommonRequest, 'subject' | 'id'>) {
+    this.#subscribers[subject] = id;
+    logger(`Subject subscribed ${subject}`);
+  }
+
+  async unsubscribe({ subject }: Pick<NatsCommonRequest, 'subject'>) {
+    delete this.#subscribers[subject];
+    logger(`Unsubscribed subject ${subject}`);
+  }
+
   async #subscribeIncoming() {
     this.#subscription = this.#conn.subscribe('>');
     logger(`Subscribed for subject '${this.#subscription.getSubject()}'`);
     for await (const incoming of this.#subscription) {
-      console.log({ incoming: incoming.subject });
       if (!incoming.subject.startsWith('_INBOX.')) {
-        logger(`Publication in subject '${incoming.subject}'`);
-        eventbus.emit(NATS_PACKET_ADD, {
-          subjectId: incoming.subject,
-          packet: {
-            payload: codec.decode(incoming.data),
-            headers: incoming.headers,
-            reply: incoming.reply,
-          }
-        });
+        const subjectId = this.#subscribers[incoming.subject];
+        if (subjectId) {
+          const decoded = codec.decode(incoming.data);
+          logger(`Publication in subject '${incoming.subject}'`);
+          eventbus.emit(NATS_MESSAGE_ADD, {
+            subjectId,
+            packet: {
+              payload: decoded,
+              timestamp: ~~(new Date().getTime() / 1000)
+            },
+            type: 'response',
+          });
+        }
       }
     }
   }

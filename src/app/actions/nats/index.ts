@@ -9,5 +9,9 @@ const natsRequest = async (_: IpcRendererEvent, message: NatsCommonRequest) => n
 
 const natsDisconnect = async () => nats.disconnect();
 
+const natsSubscribe = async (_: IpcRendererEvent, message: NatsCommonRequest) => nats.subscribe(message);
 
-export default { natsConnect, natsPublish, natsRequest, natsDisconnect };
+const natsUnsubscribe = async (_: IpcRendererEvent, message: NatsCommonRequest) => nats.unsubscribe(message);
+
+
+export default { natsConnect, natsPublish, natsRequest, natsDisconnect, natsSubscribe, natsUnsubscribe };
