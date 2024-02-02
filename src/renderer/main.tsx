@@ -1,15 +1,19 @@
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-
+import events from '#app/events/events.ts';
+import { actions as rendererActions } from 'src/renderer/bridge';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <App/>
 );
 
-// Remove Preload scripts loading
 postMessage({ payload: 'removeLoading' }, '*');
 
-// Use contextBridge
-window.ipcRenderer.on('main-process-message', (_event, message) => {
-  console.log(message);
-});
+for (const event of events) {
+  if (rendererActions[event]) {
+    window.ipcRenderer.on(event, (_event, message) => {
+      rendererActions[event](message);
+    });
+  }
+}
+

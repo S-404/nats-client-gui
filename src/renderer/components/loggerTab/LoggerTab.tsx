@@ -1,32 +1,22 @@
-import React, { FC, useEffect, useState } from 'react';
-import './loggerTab.scss';
+import React, { FC } from 'react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import { LOGGER_ADD } from '#app/events/constants.ts';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
+import LogMessagesStore from '#renderer/store/LogMessagesStore.ts';
+import { observer } from 'mobx-react';
+import './loggerTab.scss';
 
-export const LoggerTab: FC = () => {
-  const [logs, setLogs] = useState<string[]>([]);
-
-  useEffect(() => {
-    window.ipcRenderer.on(LOGGER_ADD, (_event, message) => {
-      setLogs(prev => {
-        return prev.length > 1000 ?
-          [prev.slice(1), message] :
-          [...prev, message];
-      });
-    });
-  }, []);
-
+export const LoggerTab: FC = observer(() => {
+  const { logMessages } = LogMessagesStore;
 
   return (
     <TabContainer name={'Logger'}>
       <div className="logger-tab-container">
         <MyTextArea
-          text={logs.join('\n')}
+          text={logMessages.join('\n')}
           autoScrolling={true}
         />
       </div>
 
     </TabContainer>
   );
-};
+});

@@ -1,7 +1,5 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
-import dayjs from 'dayjs';
-import { NATS_MESSAGE_ADD } from '#app/events/constants.ts';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
@@ -33,17 +31,6 @@ export const MessagesTab: FC = observer(() => {
   const clear = () => {
     NatsClientStore.clearSubjectMessages(selectedId);
   };
-
-  useEffect(() => {
-    window.ipcRenderer.on(NATS_MESSAGE_ADD, (_event, message) => {
-      if (message.type === 'response') {
-        const payload = JSON.parse(message.packet.payload);
-        const date = dayjs.unix(message.packet.timestamp).format('YYYY-MM-DD HH:mm:ss');
-        const messageStr = `--- ${date} ---\n${JSON.stringify(payload, undefined, 2)}`;
-        NatsClientStore.addMessage({ subjectId: message.subjectId, message: messageStr });
-      }
-    });
-  }, []);
 
   return (
     <TabContainer name={'Messages'}>

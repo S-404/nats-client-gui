@@ -1,10 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import actionDispatcher from '../../actions/dispatcher.ts';
+import { appActionDispatcher } from 'src/renderer/bridge';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import { observer } from 'mobx-react';
-import { NATS_STATUS_CONNECTED } from '#app/events/constants.ts';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import './serversTab.scss';
 
@@ -17,12 +16,6 @@ export const ServersTab: FC = observer(() => {
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
   useEffect(() => {
-    window.ipcRenderer.on(NATS_STATUS_CONNECTED, (_, message) => {
-      NatsClientStore.setIsConnected(!!message);
-    });
-  }, []);
-
-  useEffect(() => {
     const checkStore = async () => {
       const attrMap = {
         'host': setHost,
@@ -31,7 +24,7 @@ export const ServersTab: FC = observer(() => {
       };
 
       for (const attr of Object.keys(attrMap)) {
-        const value = await actionDispatcher('storeGet', attr);
+        const value = await appActionDispatcher('storeGet', attr);
         if (value) {
           const setState = attrMap[attr];
           setState(value);
@@ -44,9 +37,9 @@ export const ServersTab: FC = observer(() => {
 
 
   const storeSave = async () => {
-    await actionDispatcher('storeSave', { host });
-    await actionDispatcher('storeSave', { port });
-    await actionDispatcher('storeSave', { token });
+    await appActionDispatcher('storeSave', { host });
+    await appActionDispatcher('storeSave', { port });
+    await appActionDispatcher('storeSave', { token });
     setIsSaved(true);
   };
 
@@ -55,11 +48,11 @@ export const ServersTab: FC = observer(() => {
   }, [host, port, token]);
 
   const connect = async () => {
-    await actionDispatcher('natsConnect', { host, port, token });
+    await appActionDispatcher('natsConnect', { host, port, token });
   };
 
   const disconnect = async () => {
-    await actionDispatcher('natsDisconnect', {});
+    await appActionDispatcher('natsDisconnect', {});
   };
 
   return (

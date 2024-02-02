@@ -49,7 +49,7 @@ class NatsGateway {
       this.#conn = undefined;
       eventbus.emit(NATS_STATUS_CONNECTED, false);
       logger(`Failed to connect: ${err.message}`);
-      console.log('err', err.message);
+      console.error('err', err.message);
     }
   }
 
