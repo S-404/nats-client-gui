@@ -29,6 +29,9 @@ class NatsClientStore {
 
   addMessage(message: ClientMessage) {
     this.messages.push(message);
+    if (this.messages.length > 600) {
+      this.messages = this.messages.slice(100);
+    }
   }
 
   setIsConnected(value: boolean) {
