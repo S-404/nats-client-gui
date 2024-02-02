@@ -32,7 +32,7 @@ class NatsGateway {
   #subscribers: { [subject: string]: string } = {}; // {[subject]: subjectId}
 
   async connect(config: Server) {
-    const server = `${config?.host || 'localhost'}:${config?.port || 4222}`;
+    const server = `${config?.host}${config?.port ? `:${config.port}` : ''}`;
     logger(`Connecting to NATS server: ${server}`);
     try {
       this.#conn = await connect({
@@ -59,6 +59,7 @@ class NatsGateway {
       await this.#conn?.drain();
       await this.#conn?.close();
       this.#conn = undefined;
+      this.#subscription.unsubscribe();
       this.#subscription = undefined;
       this.#subscribers = {};
       logger(`Disconnected...`);
