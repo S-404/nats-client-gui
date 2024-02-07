@@ -17,8 +17,8 @@
     transition: all .5s ease;
 
     .subject-item__header {
-      .subject-item__remove {
-        display: block;
+      .subject-item__buttons {
+        display: flex;
       }
     }
   }
@@ -53,9 +53,16 @@
       }
     }
 
-    .subject-item__remove {
-      color: red;
+    .subject-item__buttons {
       display: none;
+
+      .buttons__save {
+
+      }
+
+      .buttons__remove {
+        margin-left: .5em;
+      }
     }
   }
 
