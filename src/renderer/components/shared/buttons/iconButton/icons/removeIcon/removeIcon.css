@@ -1,0 +1,26 @@
+.remove-icon {
+    position: absolute;
+    top: .25em;
+}
+
+.remove-icon:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1em;
+    height: 2px;
+    background-color: red;
+    transform: rotate(45deg);
+}
+
+.remove-icon:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1em;
+    height: 2px;
+    background-color: red;
+    transform: rotate(-45deg);
+}

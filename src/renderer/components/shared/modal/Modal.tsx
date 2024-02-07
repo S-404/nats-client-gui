@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react';
-import RemoveButton from '#renderer/components/shared/buttons/removeButton/RemoveButton.tsx';
+import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 
 import './modal.scss'
 
@@ -27,7 +27,10 @@ const Modal: FC<IModal> = ({ isModalOpen, title, children, onClose }) => {
       >
         <div className={'modal-content__header'}>
           <h3 className="modal-title">{title}</h3>
-          <RemoveButton onClick={onClose}/>
+          <IconButton
+            onClick={onClose}
+            iconType={'remove'}
+          />
         </div>
         <hr/>
         <div className={'modal-content__body'}>

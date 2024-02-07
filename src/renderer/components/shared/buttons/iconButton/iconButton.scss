@@ -1,0 +1,14 @@
+.icon-button {
+  width: 1em;
+  height: 1em;
+  position: relative;
+  background-color: black;
+  border: none;
+  cursor: pointer;
+  transition: all .3s ease;
+
+  &:hover{
+    scale: 1.2;
+    transition: all .3s ease;
+  }
+}
