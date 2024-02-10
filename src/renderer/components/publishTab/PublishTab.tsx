@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
@@ -9,11 +9,13 @@ import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import './publishTab.scss';
 
 export const PublishTab: FC = observer(() => {
-  const { subjects, selectedId, isConnected } = NatsClientStore;
+  const { subjects, selectedId, isConnected, subscribers } = NatsClientStore;
   const [subject, setSubject] = useState<string>('');
   const [payload, setPayload] = useState<string>('');
 
-  const [subscribed, setSubscribed] = useState<boolean>(false);
+  const subscribed = useMemo(() => {
+    return subscribers.includes(selectedId);
+  }, [selectedId, subscribers.length]);
 
   const request = () => {
     const newSubject = NatsClientStore.addSubjectIfNotExists({
@@ -42,22 +44,15 @@ export const PublishTab: FC = observer(() => {
       method: 'subscribe'
     });
     NatsClientStore.setSelectedId(newSubject.id);
+    NatsClientStore.addSubscriber(newSubject.id);
     appActionDispatcher('natsSubscribe', { id: newSubject?.id, subject });
   };
 
   const unsubscribe = () => {
+    NatsClientStore.removeSubscriber(selectedId);
     appActionDispatcher('natsUnsubscribe', { id: selectedId, subject });
   };
 
-  const subscribeButtonHandler = () => {
-    if (subscribed) {
-      setSubscribed(false);
-      unsubscribe();
-    } else {
-      setSubscribed(true);
-      subscribe();
-    }
-  };
 
   useEffect(() => {
     if (selectedId) {
@@ -105,7 +100,7 @@ export const PublishTab: FC = observer(() => {
           />
           <MyButton
             text={subscribed ? 'Unsubscribe' : 'Subscribe'}
-            onClick={subscribeButtonHandler}
+            onClick={subscribed ? unsubscribe : subscribe}
             color="red"
             disabled={!isConnected || !subject?.length}
           />

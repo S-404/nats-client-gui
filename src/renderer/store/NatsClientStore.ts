@@ -18,9 +18,18 @@ class NatsClientStore {
   subjects: SubjectItem[] = [];
   messages: ClientMessage[] = [];
   selectedId: string | null;
+  subscribers: string[] = [];
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  addSubscriber(id: string) {
+    this.subscribers.push(id);
+  }
+
+  removeSubscriber(id: string) {
+    this.subscribers = this.subscribers.filter(item => item !== id);
   }
 
   clearSubjectMessages(subjectId: string) {
@@ -61,6 +70,7 @@ class NatsClientStore {
       this.subjects.splice(targetIndex, 1);
     }
     this.clearSubjectMessages(id);
+    this.removeSubscriber(id);
   }
 
   setSelectedId(id: string | null) {
@@ -80,6 +90,7 @@ class NatsClientStore {
     this.subjects = [];
     this.messages = [];
     this.selectedId = null;
+    this.subscribers = [];
   }
 }
 
