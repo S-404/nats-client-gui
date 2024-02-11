@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import './myButton.scss';
 
 interface IMyButton {
@@ -9,10 +9,16 @@ interface IMyButton {
 }
 
 const MyButton: FC<IMyButton> = ({ text, onClick, color, disabled }) => {
+
+  const onClickButtonHandler = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+    onClick();
+  };
+
   return (
     <button
       className={`my-button my-button_${color}`}
-      onClick={onClick}
+      onClick={onClickButtonHandler}
       disabled={disabled}
     >
       {text}
