@@ -8,7 +8,7 @@ import './messageTab.scss';
 
 
 export const MessagesTab: FC = observer(() => {
-  const { selectedId, messages: allMessages } = NatsClientStore;
+  const { subjects, selectedId, messages: allMessages } = NatsClientStore;
   const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
   const messages = useMemo(() => {
@@ -31,6 +31,18 @@ export const MessagesTab: FC = observer(() => {
   const clear = () => {
     NatsClientStore.clearSubjectMessages(selectedId);
   };
+
+
+  if (!selectedId) {
+    return (
+      <TabContainer name={'Publish message'}>
+        <div className="publish-tab-container_empty">
+          <p>{subjects.length ? 'Select subject' : 'Add subject'}</p>
+        </div>
+      </TabContainer>
+    );
+  }
+
 
   return (
     <TabContainer name={'Messages'}>

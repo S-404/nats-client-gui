@@ -18,34 +18,31 @@ export const PublishTab: FC = observer(() => {
   }, [selectedId, subscribers.length]);
 
   const request = () => {
-    const newSubject = NatsClientStore.addSubjectIfNotExists({
-      name: subject,
+    NatsClientStore.updateSubject(selectedId, {
+      method: 'request',
       payload,
-      method: 'request'
+      name: subject
     });
-    NatsClientStore.setSelectedId(newSubject.id);
-    appActionDispatcher('natsRequest', { id: newSubject?.id, subject, payload });
+    appActionDispatcher('natsRequest', { id: selectedId, subject, payload });
   };
 
   const publish = () => {
-    const newSubject = NatsClientStore.addSubjectIfNotExists({
-      name: subject,
+    NatsClientStore.updateSubject(selectedId, {
+      method: 'publish',
       payload,
-      method: 'publish'
+      name: subject
     });
-    NatsClientStore.setSelectedId(newSubject.id);
-    appActionDispatcher('natsPublish', { id: newSubject?.id, subject, payload });
+    appActionDispatcher('natsPublish', { id: selectedId, subject, payload });
   };
 
   const subscribe = () => {
-    const newSubject = NatsClientStore.addSubjectIfNotExists({
-      name: subject,
+    NatsClientStore.updateSubject(selectedId, {
+      method: 'subscribe',
       payload,
-      method: 'subscribe'
+      name: subject
     });
-    NatsClientStore.setSelectedId(newSubject.id);
-    NatsClientStore.addSubscriber(newSubject.id);
-    appActionDispatcher('natsSubscribe', { id: newSubject?.id, subject });
+    NatsClientStore.addSubscriber(selectedId);
+    appActionDispatcher('natsSubscribe', { id: selectedId, subject });
   };
 
   const unsubscribe = () => {
@@ -59,10 +56,20 @@ export const PublishTab: FC = observer(() => {
       const target = subjects.find(item => item.id === selectedId);
       if (target) {
         setSubject(target.name);
-        setPayload(target.payload);
+        setPayload(target.payload ?? '');
       }
     }
   }, [subjects, selectedId]);
+
+  if (!selectedId) {
+    return (
+      <TabContainer name={'Publish message'}>
+        <div className="publish-tab-container_empty">
+          <p>{subjects.length ? 'Select subject' : 'Add subject'}</p>
+        </div>
+      </TabContainer>
+    );
+  }
 
   return (
     <TabContainer name={'Publish message'}>

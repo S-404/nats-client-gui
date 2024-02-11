@@ -6,6 +6,7 @@ export type SubjectItem = {
   name: string;
   method: 'request' | 'publish' | 'subscribe';
   payload?: string;
+  isSubscribed?: boolean;
 }
 
 export type ClientMessage = {
@@ -50,17 +51,11 @@ class NatsClientStore {
     }
   }
 
-  addSubjectIfNotExists(subject: Omit<SubjectItem, 'id'>): SubjectItem {
-    const targetIndex = this.subjects.findIndex(item =>
-      item.name === subject.name &&
-      item.method === subject.method
-    );
+  updateSubject(id: string, newData: Partial<SubjectItem>): void {
+    const targetIndex = this.subjects.findIndex(item => item.id === id);
 
     if (targetIndex !== -1) {
-      this.subjects[targetIndex] = { ...this.subjects[targetIndex], ...subject };
-      return this.subjects[targetIndex];
-    } else {
-      return this.#createSubject(subject);
+      this.subjects[targetIndex] = { ...this.subjects[targetIndex], ...newData };
     }
   }
 
@@ -71,13 +66,14 @@ class NatsClientStore {
     }
     this.clearSubjectMessages(id);
     this.removeSubscriber(id);
+    this.selectedId = null;
   }
 
   setSelectedId(id: string | null) {
     this.selectedId = id;
   }
 
-  #createSubject(subject: Omit<SubjectItem, 'id'>) {
+  createSubject(subject: Omit<SubjectItem, 'id'>) {
     const newSubject = {
       id: uuid(),
       ...subject
@@ -86,8 +82,14 @@ class NatsClientStore {
     return newSubject;
   }
 
+  addSubjectIfNotExists(subject: SubjectItem) {
+    const target = this.subjects.find(item => item.id === subject.id);
+    if (!target) {
+      this.subjects.push(subject);
+    }
+  }
+
   #clearState() {
-    this.subjects = [];
     this.messages = [];
     this.selectedId = null;
     this.subscribers = [];

@@ -6,7 +6,7 @@ import { LoggerTab } from '#renderer/components/loggerTab';
 import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex';
 
 import 'react-reflex/styles.css';
-import './styles/react-reflex-override.css'
+import './styles/react-reflex-override.css';
 import './styles/main.css';
 import './app.scss';
 
@@ -30,7 +30,7 @@ function App() {
         <ReflexElement className="body">
           <ReflexContainer orientation="vertical">
 
-            <ReflexElement>
+            <ReflexElement size={200}>
               <SubjectsTab/>
             </ReflexElement>
 

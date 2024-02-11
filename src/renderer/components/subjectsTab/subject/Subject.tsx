@@ -1,38 +1,60 @@
 import React, { FC } from 'react';
 import { SubjectItem } from '#renderer/store/NatsClientStore.ts';
-import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
+import MyButton from '#renderer/components/shared/buttons/myButton/MyButton.tsx';
 import './subject.scss';
+
 
 interface ISubject extends SubjectItem {
   isSelected?: boolean;
-  onClick?: (subject: SubjectItem) => void;
-  removeSubject: (params: { id: string, subject: string }) => void;
+  onClick?: () => void;
+  removeSubject: () => void;
+  saveSubject?: () => void;
+  loadSubject?: () => void;
 }
 
-const Subject: FC<ISubject> = ({ isSelected, onClick, removeSubject, ...subject }) => {
+const Subject: FC<ISubject> = ({
+                                 isSelected,
+                                 onClick,
+                                 removeSubject,
+                                 loadSubject,
+                                 saveSubject,
+                                 ...subject
+                               }) => {
   return (
     <div
       className={`subject-item subject-item${isSelected ? '_selected' : ''}`}
-      onClick={() => onClick(subject)}
+      onClick={onClick}
     >
       <div className="subject-item__header">
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
         </div>
-
-        <div className="subject-item__buttons">
-          <div className="buttons__remove">
-            <IconButton
-              iconType={'remove'}
-              onClick={() => removeSubject({ id: subject.id, subject: subject.name })}/>
-          </div>
-        </div>
-
       </div>
+
       <div className="subject-item__body">
         <div className="subject-item__name">
           {subject.name}
         </div>
+      </div>
+
+      {isSelected && <hr/>}
+
+      <div className="subject-item__buttons">
+        <MyButton
+          text={'Remove'}
+          color={'red'}
+          onClick={removeSubject}
+        />
+        {saveSubject && <MyButton
+          text={'Save'}
+          color={'green'}
+          onClick={saveSubject}
+        />}
+        {loadSubject && <MyButton
+          text={'Load'}
+          color={'green'}
+          onClick={loadSubject}
+        />}
       </div>
 
     </div>
