@@ -48,7 +48,7 @@ class NatsClientStore {
   setIsConnected(value: boolean) {
     this.isConnected = value;
     if (!value) {
-      this.#clearState();
+      this.clearState();
     }
   }
 
@@ -92,10 +92,15 @@ class NatsClientStore {
     }
   }
 
-  #clearState() {
+  clearState(isFull: boolean = false) {
     this.messages = [];
     this.selectedId = null;
     this.subscribers = [];
+
+    if (isFull) {
+      this.selectedSubject = null;
+      this.subjects = [];
+    }
   }
 }
 

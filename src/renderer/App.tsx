@@ -30,7 +30,7 @@ function App() {
         <ReflexElement className="body">
           <ReflexContainer orientation="vertical">
 
-            <ReflexElement size={200}>
+            <ReflexElement size={220}>
               <SubjectsTab/>
             </ReflexElement>
 
