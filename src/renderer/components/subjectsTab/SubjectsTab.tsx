@@ -13,11 +13,11 @@ import './subjectsTab.scss';
 
 
 export const SubjectsTab: FC = observer(() => {
-  const { subjects, selectedId } = NatsClientStore;
+  const { subjects, selectedSubject } = NatsClientStore;
   const { isOpened, open, close } = useModal();
 
   const selectSubject = (subject: SubjectItem) => {
-    NatsClientStore.setSelectedId(subject.id);
+    NatsClientStore.setSelectedSubject(subject.id);
   };
 
   const addSubject = () => {
@@ -72,7 +72,7 @@ export const SubjectsTab: FC = observer(() => {
             <Subject
               key={item.id}
               onClick={() => selectSubject(item)}
-              isSelected={selectedId === item.id}
+              isSelected={selectedSubject?.id === item.id}
               removeSubject={() => remove({ id: item.id, subject: item.name })}
               saveSubject={() => saveToStore({ ...item })}
               {...item}

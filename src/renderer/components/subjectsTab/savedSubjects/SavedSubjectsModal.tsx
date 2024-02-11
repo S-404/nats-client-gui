@@ -7,7 +7,7 @@ import { observer } from 'mobx-react';
 import Modal from '#renderer/components/shared/modal/Modal.tsx';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 
-import './savedSubjects.scss'
+import './savedSubjects.scss';
 
 interface ISavedSubjectsModalProps {
   isModalOpened: boolean;
@@ -24,7 +24,7 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({ isModalOpen
 
   const loadSubjectFromStore = (subject: SubjectItem) => {
     NatsClientStore.addSubjectIfNotExists({ ...subject });
-    NatsClientStore.setSelectedId(subject.id);
+    NatsClientStore.setSelectedSubject(subject.id);
     closeModal();
   };
 
@@ -54,9 +54,11 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({ isModalOpen
     >
       <div className={'saved-subjects'}>
         {savedSubjects.map((item) => (
-          <div className={'saved-subjects__subject'}>
+          <div
+            key={item.id}
+            className={'saved-subjects__subject'}
+          >
             <Subject
-              key={item.id}
               onClick={() => loadSubjectFromStore(item)}
               {...item}
             />

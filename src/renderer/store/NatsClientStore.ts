@@ -18,7 +18,6 @@ class NatsClientStore {
   isConnected: boolean = false;
   subjects: SubjectItem[] = [];
   messages: ClientMessage[] = [];
-  selectedId: string | null;
   selectedSubject?: SubjectItem;
   subscribers: string[] = [];
 
@@ -67,11 +66,10 @@ class NatsClientStore {
     }
     this.clearSubjectMessages(id);
     this.removeSubscriber(id);
-    this.selectedId = null;
+    this.selectedSubject = null
   }
 
-  setSelectedId(id: string | null) {
-    this.selectedId = id;
+  setSelectedSubject(id: string | null) {
     const targetIndex = this.subjects.findIndex((item) => item.id === id);
     this.selectedSubject = targetIndex !== -1 ? this.subjects[targetIndex] : null;
   }
@@ -94,11 +92,10 @@ class NatsClientStore {
 
   clearState(isFull: boolean = false) {
     this.messages = [];
-    this.selectedId = null;
+    this.selectedSubject = null;
     this.subscribers = [];
 
     if (isFull) {
-      this.selectedSubject = null;
       this.subjects = [];
     }
   }

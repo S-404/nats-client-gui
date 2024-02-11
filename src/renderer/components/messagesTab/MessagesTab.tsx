@@ -8,14 +8,14 @@ import './messageTab.scss';
 
 
 export const MessagesTab: FC = observer(() => {
-  const { subjects, selectedId, messages: allMessages } = NatsClientStore;
+  const { subjects, selectedSubject, messages: allMessages } = NatsClientStore;
   const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
   const messages = useMemo(() => {
-    if (isShownAll) {
+    if (isShownAll && selectedSubject) {
       return allMessages
         .reduce((acc, curr) => {
-          if (curr.subjectId === selectedId) {
+          if (curr.subjectId === selectedSubject.id) {
             acc.push(curr.message);
           }
           return acc;
@@ -23,17 +23,17 @@ export const MessagesTab: FC = observer(() => {
         .join('\n');
     }
 
-    const subjectMessages = allMessages.filter(item => item.subjectId === selectedId);
+    const subjectMessages = allMessages.filter(item => item.subjectId === selectedSubject.id);
     return subjectMessages.length >= 1 ? subjectMessages[subjectMessages.length - 1].message : '';
 
-  }, [allMessages.length, selectedId, isShownAll]);
+  }, [allMessages.length, selectedSubject?.id, isShownAll]);
 
   const clear = () => {
-    NatsClientStore.clearSubjectMessages(selectedId);
+    NatsClientStore.clearSubjectMessages(selectedSubject?.id);
   };
 
 
-  if (!selectedId) {
+  if (!selectedSubject) {
     return (
       <TabContainer name={'Publish message'}>
         <div className="publish-tab-container_empty">

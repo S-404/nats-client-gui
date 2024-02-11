@@ -9,13 +9,13 @@ import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts
 import './publishTab.scss';
 
 export const PublishTab: FC = observer(() => {
-  const { subjects, selectedId, isConnected, subscribers, selectedSubject } = NatsClientStore;
+  const { subjects, isConnected, subscribers, selectedSubject } = NatsClientStore;
   const [subject, setSubject] = useState<string>('');
   const [payload, setPayload] = useState<string>('');
 
   const subscribed = useMemo(() => {
-    return subscribers.includes(selectedId);
-  }, [selectedId, subscribers.length]);
+    return subscribers.includes(selectedSubject?.id);
+  }, [selectedSubject?.id, subscribers.length]);
 
   const updateSubject = <
     Subj extends SubjectItem,
@@ -23,32 +23,28 @@ export const PublishTab: FC = observer(() => {
     AttrType extends Subj[Attr]
   >
   (attr: Attr, newValue: AttrType) => {
-    NatsClientStore.updateSubject(selectedId, { [attr]: newValue });
+    NatsClientStore.updateSubject(selectedSubject?.id, { [attr]: newValue });
   };
 
   const request = () => {
     updateSubject('method', 'request');
-    const { id, name: subject, payload } = selectedSubject;
-    appActionDispatcher('natsRequest', { id, subject, payload });
+    appActionDispatcher('natsRequest', { id: selectedSubject.id, subject, payload });
   };
 
   const publish = () => {
     updateSubject('method', 'publish');
-    const { id, name: subject, payload } = selectedSubject;
-    appActionDispatcher('natsPublish', { id, subject, payload });
+    appActionDispatcher('natsPublish', { id: selectedSubject.id, subject, payload });
   };
 
   const subscribe = () => {
     updateSubject('method', 'subscribe');
-    NatsClientStore.addSubscriber(selectedId);
-    const { id, name: subject } = selectedSubject;
-    appActionDispatcher('natsSubscribe', { id, subject });
+    NatsClientStore.addSubscriber(selectedSubject?.id);
+    appActionDispatcher('natsSubscribe', { id: selectedSubject.id, subject });
   };
 
   const unsubscribe = () => {
-    NatsClientStore.removeSubscriber(selectedId);
-    const { id, name: subject } = selectedSubject;
-    appActionDispatcher('natsUnsubscribe', { id, subject });
+    NatsClientStore.removeSubscriber(selectedSubject?.id);
+    appActionDispatcher('natsUnsubscribe', { id: selectedSubject.id, subject });
   };
 
   useEffect(() => {
@@ -63,7 +59,7 @@ export const PublishTab: FC = observer(() => {
     }
   }, [selectedSubject?.id]);
 
-  if (!selectedId) {
+  if (!selectedSubject?.id) {
     return (
       <TabContainer name={'Publish message'}>
         <div className="publish-tab-container_empty">
