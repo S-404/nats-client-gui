@@ -1,0 +1,30 @@
+.saved-subjects {
+  width: 50%;
+
+  &__subject {
+    position: relative;
+
+    .subject-item {
+      margin-bottom: .5em;
+      border-color: darkslategray;
+
+      &:hover {
+        border-color: gray;
+      }
+    }
+
+    .subject__remove-button {
+      display: none;
+      position: absolute;
+      top: 2em;
+      right: 1em;
+      scale: 1.3;
+    }
+
+    &:hover {
+      .subject__remove-button {
+        display: block;
+      }
+    }
+  }
+}

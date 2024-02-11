@@ -7,16 +7,14 @@ import './subject.scss';
 interface ISubject extends SubjectItem {
   isSelected?: boolean;
   onClick?: () => void;
-  removeSubject: () => void;
+  removeSubject?: () => void;
   saveSubject?: () => void;
-  loadSubject?: () => void;
 }
 
 const Subject: FC<ISubject> = ({
                                  isSelected,
                                  onClick,
                                  removeSubject,
-                                 loadSubject,
                                  saveSubject,
                                  ...subject
                                }) => {
@@ -45,16 +43,11 @@ const Subject: FC<ISubject> = ({
           color={'red'}
           onClick={removeSubject}
         />
-        {saveSubject && <MyButton
+        <MyButton
           text={'Save'}
           color={'green'}
           onClick={saveSubject}
-        />}
-        {loadSubject && <MyButton
-          text={'Load'}
-          color={'green'}
-          onClick={loadSubject}
-        />}
+        />
       </div>
 
     </div>

@@ -5,6 +5,9 @@ import { appActionDispatcher } from '#renderer/bridge';
 import SavedSubjectsStore from '#renderer/store/SavedSubjectsStore.ts';
 import { observer } from 'mobx-react';
 import Modal from '#renderer/components/shared/modal/Modal.tsx';
+import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
+
+import './savedSubjects.scss'
 
 interface ISavedSubjectsModalProps {
   isModalOpened: boolean;
@@ -49,18 +52,21 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({ isModalOpen
       onClose={closeModal}
       title={'Load Subject'}
     >
-      <>
+      <div className={'saved-subjects'}>
         {savedSubjects.map((item) => (
-          <Subject
-            key={item.id}
-            removeSubject={() => removeFromStore(item.id)}
-            isSelected={true}
-            loadSubject={() => loadSubjectFromStore(item)}
-            onClick={() => loadSubjectFromStore(item)}
-            {...item}
-          />
+          <div className={'saved-subjects__subject'}>
+            <Subject
+              key={item.id}
+              onClick={() => loadSubjectFromStore(item)}
+              {...item}
+            />
+            <div className={'subject__remove-button'}>
+              <IconButton onClick={() => removeFromStore(item.id)} iconType={'remove'}/>
+            </div>
+          </div>
+
         ))}
-      </>
+      </div>
     </Modal>
   );
 });

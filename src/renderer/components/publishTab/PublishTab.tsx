@@ -5,11 +5,11 @@ import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import { appActionDispatcher } from '#renderer/bridge';
-import NatsClientStore from '#renderer/store/NatsClientStore.ts';
+import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts';
 import './publishTab.scss';
 
 export const PublishTab: FC = observer(() => {
-  const { subjects, selectedId, isConnected, subscribers } = NatsClientStore;
+  const { subjects, selectedId, isConnected, subscribers, selectedSubject } = NatsClientStore;
   const [subject, setSubject] = useState<string>('');
   const [payload, setPayload] = useState<string>('');
 
@@ -17,49 +17,51 @@ export const PublishTab: FC = observer(() => {
     return subscribers.includes(selectedId);
   }, [selectedId, subscribers.length]);
 
+  const updateSubject = <
+    Subj extends SubjectItem,
+    Attr extends keyof Subj,
+    AttrType extends Subj[Attr]
+  >
+  (attr: Attr, newValue: AttrType) => {
+    NatsClientStore.updateSubject(selectedId, { [attr]: newValue });
+  };
+
   const request = () => {
-    NatsClientStore.updateSubject(selectedId, {
-      method: 'request',
-      payload,
-      name: subject
-    });
-    appActionDispatcher('natsRequest', { id: selectedId, subject, payload });
+    updateSubject('method', 'request');
+    const { id, name: subject, payload } = selectedSubject;
+    appActionDispatcher('natsRequest', { id, subject, payload });
   };
 
   const publish = () => {
-    NatsClientStore.updateSubject(selectedId, {
-      method: 'publish',
-      payload,
-      name: subject
-    });
-    appActionDispatcher('natsPublish', { id: selectedId, subject, payload });
+    updateSubject('method', 'publish');
+    const { id, name: subject, payload } = selectedSubject;
+    appActionDispatcher('natsPublish', { id, subject, payload });
   };
 
   const subscribe = () => {
-    NatsClientStore.updateSubject(selectedId, {
-      method: 'subscribe',
-      payload,
-      name: subject
-    });
+    updateSubject('method', 'subscribe');
     NatsClientStore.addSubscriber(selectedId);
-    appActionDispatcher('natsSubscribe', { id: selectedId, subject });
+    const { id, name: subject } = selectedSubject;
+    appActionDispatcher('natsSubscribe', { id, subject });
   };
 
   const unsubscribe = () => {
     NatsClientStore.removeSubscriber(selectedId);
-    appActionDispatcher('natsUnsubscribe', { id: selectedId, subject });
+    const { id, name: subject } = selectedSubject;
+    appActionDispatcher('natsUnsubscribe', { id, subject });
   };
 
+  useEffect(() => {
+    updateSubject('name', subject);
+    updateSubject('payload', payload);
+  }, [subject, payload]);
 
   useEffect(() => {
-    if (selectedId) {
-      const target = subjects.find(item => item.id === selectedId);
-      if (target) {
-        setSubject(target.name);
-        setPayload(target.payload ?? '');
-      }
+    if (selectedSubject) {
+      setSubject(selectedSubject.name);
+      setPayload(selectedSubject.payload);
     }
-  }, [subjects, selectedId]);
+  }, [selectedSubject?.id]);
 
   if (!selectedId) {
     return (
@@ -77,7 +79,7 @@ export const PublishTab: FC = observer(() => {
         <div className="inputs">
           <div className="subject">
             <MyInput
-              text={subject}
+              text={subject ?? ''}
               title={'Subject'}
               onChange={(e) => setSubject(e.target.value)}
             />
@@ -86,7 +88,7 @@ export const PublishTab: FC = observer(() => {
           <div className="payload">
             <MyTextArea
               title={'Payload'}
-              text={payload}
+              text={payload ?? ''}
               onChange={(e) => setPayload(e.target.value)}
             />
           </div>

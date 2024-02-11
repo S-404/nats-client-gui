@@ -19,6 +19,7 @@ class NatsClientStore {
   subjects: SubjectItem[] = [];
   messages: ClientMessage[] = [];
   selectedId: string | null;
+  selectedSubject?: SubjectItem;
   subscribers: string[] = [];
 
   constructor() {
@@ -71,6 +72,8 @@ class NatsClientStore {
 
   setSelectedId(id: string | null) {
     this.selectedId = id;
+    const targetIndex = this.subjects.findIndex((item) => item.id === id);
+    this.selectedSubject = targetIndex !== -1 ? this.subjects[targetIndex] : null;
   }
 
   createSubject(subject: Omit<SubjectItem, 'id'>) {
