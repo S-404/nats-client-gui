@@ -23,7 +23,7 @@ export const SubjectsTab: FC = observer(() => {
   const addSubject = () => {
     const newSubject = NatsClientStore.createSubject({
       method: 'request',
-      name: '-',
+      name: '',
     });
     selectSubject(newSubject);
   };
@@ -40,6 +40,10 @@ export const SubjectsTab: FC = observer(() => {
     });
   };
 
+  const clearSubjects = () => {
+    NatsClientStore.clearState(true);
+  };
+
   return (
     <TabContainer name={'Subjects'}>
       <div className={'subjects-tab-container'}>
@@ -52,6 +56,10 @@ export const SubjectsTab: FC = observer(() => {
           <MyButton
             text={'Load'}
             onClick={open}
+          />
+          <MyButton
+            text={'Clear'}
+            onClick={clearSubjects}
           />
         </div>
 
