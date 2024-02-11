@@ -2,6 +2,25 @@
 
 .subjects-tab-container {
   height: 100%;
-  overflow-y: scroll;
-  padding-right: .3em;
+
+  .subjects-tab-container__buttons {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+    button {
+      margin: 0 .2em .5em;
+      width: 80px;
+    }
+  }
+
+  .subjects-tab-container__subject-list {
+    height: 90%;
+    overflow-y: scroll;
+    padding-right: .2em;
+
+    .subject-item {
+      margin-bottom: .5em;
+    }
+  }
 }

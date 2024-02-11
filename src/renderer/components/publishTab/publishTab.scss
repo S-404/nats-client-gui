@@ -21,4 +21,13 @@
       margin-right: 1em;
     }
   }
+
+  &_empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: gray;
+  }
 }
+
