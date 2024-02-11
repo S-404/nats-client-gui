@@ -16,7 +16,6 @@ export type NatsIncomingPacket = {
   timestamp?: number;
 }
 
-// const logger = console.log
 const codec = StringCodec();
 
 export type NatsCommonRequest = {

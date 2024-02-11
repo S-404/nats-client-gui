@@ -15,7 +15,7 @@ export const MessagesTab: FC = observer(() => {
     if (isShownAll && selectedSubject) {
       return allMessages
         .reduce((acc, curr) => {
-          if (curr.subjectId === selectedSubject.id) {
+          if (curr.subjectId === selectedSubject?.id) {
             acc.push(curr.message);
           }
           return acc;
@@ -23,7 +23,7 @@ export const MessagesTab: FC = observer(() => {
         .join('\n');
     }
 
-    const subjectMessages = allMessages.filter(item => item.subjectId === selectedSubject.id);
+    const subjectMessages = allMessages.filter(item => item.subjectId === selectedSubject?.id);
     return subjectMessages.length >= 1 ? subjectMessages[subjectMessages.length - 1].message : '';
 
   }, [allMessages.length, selectedSubject?.id, isShownAll]);

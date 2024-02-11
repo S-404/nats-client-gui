@@ -28,23 +28,23 @@ export const PublishTab: FC = observer(() => {
 
   const request = () => {
     updateSubject('method', 'request');
-    appActionDispatcher('natsRequest', { id: selectedSubject.id, subject, payload });
+    appActionDispatcher('natsRequest', { id: selectedSubject?.id, subject, payload });
   };
 
   const publish = () => {
     updateSubject('method', 'publish');
-    appActionDispatcher('natsPublish', { id: selectedSubject.id, subject, payload });
+    appActionDispatcher('natsPublish', { id: selectedSubject?.id, subject, payload });
   };
 
   const subscribe = () => {
     updateSubject('method', 'subscribe');
     NatsClientStore.addSubscriber(selectedSubject?.id);
-    appActionDispatcher('natsSubscribe', { id: selectedSubject.id, subject });
+    appActionDispatcher('natsSubscribe', { id: selectedSubject?.id, subject });
   };
 
   const unsubscribe = () => {
     NatsClientStore.removeSubscriber(selectedSubject?.id);
-    appActionDispatcher('natsUnsubscribe', { id: selectedSubject.id, subject });
+    appActionDispatcher('natsUnsubscribe', { id: selectedSubject?.id, subject });
   };
 
   useEffect(() => {
