@@ -67,33 +67,47 @@ class NatsGateway {
   }
 
   async publish({ subject, payload, options }: NatsCommonRequest) {
-    this.#conn.publish(
-      subject,
-      (payload && codec.encode(payload)) || Empty,
-      options
-    );
+    try{
+      this.#conn.publish(
+        subject,
+        (payload && codec.encode(payload)) || Empty,
+        options
+      );
+      logger(`Publish '${subject}' success`)
+    }catch (e) {
+      logger(`Publish '${subject}' is failed: ${e.message}`, )
+    }
   }
 
   async request({ subject, payload, options, id }: NatsCommonRequest) {
-    const response = await this.#conn.request(
-      subject,
-      (payload && codec.encode(payload)) || Empty,
-      {
-        timeout: 5 * 1000,
-        ...options,
-      },
-    );
-    const decoded = codec.decode(response.data);
+    logger(`Requesting '${subject}'...`)
 
-    eventbus.emit(NATS_MESSAGE_ADD, {
-      subjectId: id,
-      packet: {
-        payload: decoded,
-        timestamp: ~~(new Date().getTime() / 1000)
-      },
-      type: 'response',
-    });
-    return decoded;
+    try {
+      const response = await this.#conn.request(
+        subject,
+        (payload && codec.encode(payload)) || Empty,
+        {
+          timeout: 5 * 1000,
+          ...options,
+        },
+      );
+      const decoded = codec.decode(response.data);
+
+      eventbus.emit(NATS_MESSAGE_ADD, {
+        subjectId: id,
+        packet: {
+          payload: decoded,
+          timestamp: ~~(new Date().getTime() / 1000)
+        },
+        type: 'response',
+      });
+
+      logger(`Request '${subject}' is success`)
+
+      return decoded;
+    } catch (e) {
+      logger(`Request '${subject}' is failed: ${e.message}`, )
+    }
   }
 
   async subscribe({ subject, id }: Pick<NatsCommonRequest, 'subject' | 'id'>) {
@@ -114,7 +128,7 @@ class NatsGateway {
         const subjectId = this.#subscribers[incoming.subject];
         if (subjectId) {
           const decoded = codec.decode(incoming.data);
-          logger(`Publication in subject '${incoming.subject}'`);
+          logger(`Publication with subscribed subject '${incoming.subject}'`);
           eventbus.emit(NATS_MESSAGE_ADD, {
             subjectId,
             packet: {
@@ -123,6 +137,8 @@ class NatsGateway {
             },
             type: 'response',
           });
+        }else{
+          logger(`Publication with subject '${incoming.subject}'`);
         }
       }
     }
