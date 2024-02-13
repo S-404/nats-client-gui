@@ -63,9 +63,7 @@ export const SubjectsTab: FC = observer(() => {
           />
         </div>
 
-        <div className={'subjects-tab-container__create-subject-button'}>
-
-        </div>
+        <hr/>
 
         <div className={'subjects-tab-container__subject-list'}>
           {subjects.map((item) => (

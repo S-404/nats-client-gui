@@ -15,18 +15,14 @@ function App() {
   return (
     <div className="app">
 
-      <ReflexContainer orientation="horizontal">
+      <div className="header">
+        <ServersTab/>
+      </div>
 
-        <ReflexElement
-          className="header"
-          maxSize={90}
-          size={90}
-        >
-          <ServersTab/>
-        </ReflexElement>
-
-        <ReflexSplitter propagate={true}/>
-
+      <ReflexContainer
+        className="app-content"
+        orientation="horizontal"
+      >
         <ReflexElement className="body">
           <ReflexContainer orientation="vertical">
 
@@ -53,7 +49,6 @@ function App() {
 
         <ReflexElement
           size={150}
-          className="footer"
         >
           <LoggerTab/>
         </ReflexElement>

@@ -1,4 +1,5 @@
 @import "../shared/tabContainer/tab-container.mixin";
+@import "../shared/colors";
 
 .subjects-tab-container {
   height: 100%;
@@ -7,17 +8,22 @@
     display: flex;
     justify-content: start;
     flex-wrap: wrap;
-    margin-bottom: 1em;
+    padding-bottom: .5em;
     button {
       margin: 0 .2em .5em;
       width: 60px;
     }
   }
 
+  & > hr{
+    border-color: $inputBorderFgColor;
+  }
+
   .subjects-tab-container__subject-list {
     height: 90%;
     overflow-y: scroll;
     padding-right: .2em;
+    padding-top: 1em;
 
     .subject-item {
       margin-bottom: .5em;

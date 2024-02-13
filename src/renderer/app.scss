@@ -15,9 +15,13 @@ $bodyHeight: calc(100% - 1em - $headerHeight - $fullFooterHeight);
 
   padding: .1em .5em .5em;
 
-  .header {}
+  .header {
+    height: 90px;
+  }
 
-  .body {}
+  .app-content {
+    height: calc(100vh - 100px);
+  }
 
-  .footer {}
+
 }
