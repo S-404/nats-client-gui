@@ -59,6 +59,16 @@ export const PublishTab: FC = observer(() => {
     }
   }, [selectedSubject?.id]);
 
+  const payloadChecker = useMemo(() => {
+    let result = 'ok';
+    try {
+      JSON.parse(payload || '{}')
+    } catch (e) {
+      result = e.message
+    }
+    return result;
+  }, [payload]);
+
   if (!selectedSubject?.id) {
     return (
       <TabContainer name={'Publish message'}>
@@ -87,6 +97,9 @@ export const PublishTab: FC = observer(() => {
               text={payload ?? ''}
               onChange={(e) => setPayload(e.target.value)}
             />
+            <div className='payload__checker'>
+              <a>JSON.parse: { payloadChecker }</a>
+            </div>
           </div>
         </div>
 

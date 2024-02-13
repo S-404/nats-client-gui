@@ -12,7 +12,13 @@
     }
 
     .payload {
-      height: calc(100% - 80px);;
+      height: calc(100% - 80px);
+      .payload__checker{
+        position: sticky;
+        bottom: 5em;
+        padding: 1em .5em 0 ;
+        color: #545454;
+      }
     }
   }
 
