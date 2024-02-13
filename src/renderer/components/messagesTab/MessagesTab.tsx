@@ -2,8 +2,9 @@ import React, { FC, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
+import MySyntaxHighlighter from '#renderer/components/shared/syntaxHighlighter/MySyntaxHighlighter.tsx';
+
 import './messageTab.scss';
 
 
@@ -47,12 +48,11 @@ export const MessagesTab: FC = observer(() => {
   return (
     <TabContainer name={'Messages'}>
       <div className="messages-tab-container">
-        <div className="inputs">
-          <MyTextArea
-            text={messages}
-            autoScrolling={true}
-          />
-        </div>
+
+        <MySyntaxHighlighter
+          text={messages}
+        />
+
         <div className="buttons">
           <MyButton
             text="Clear"
