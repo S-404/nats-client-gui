@@ -1,9 +1,9 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Menu } from 'electron';
 import path from 'node:path';
 import actions from '#app/actions';
 import events from '#app/events/events.ts';
 import eventbus from '#lib/eventbus.ts';
-
+import menuTemplate from './menu/template.ts';
 
 // The built directory structure
 //
@@ -55,6 +55,9 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, 'index.html'));
   }
 }
+
+const menu = Menu.buildFromTemplate(menuTemplate)
+Menu.setApplicationMenu(menu)
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
