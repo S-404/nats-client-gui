@@ -16,6 +16,7 @@ const MySyntaxHighlighter: FC<IMySyntaxHighlighterProps> = ({ text }) => {
       language="json"
       style={syntaxStyle}
       wrapLines={true}
+      lineProps={{style: {wordBreak: 'break-all', whiteSpace: 'pre-wrap'}}}
     >
       {text}
     </SyntaxHighlighter>

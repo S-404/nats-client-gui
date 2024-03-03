@@ -2,7 +2,7 @@ import { tomorrowNightBright as style } from 'react-syntax-highlighter/dist/esm/
 
 const syntaxStyleOverride = {
   'hljs-string': {
-    'color': '#b2b4b4',
+    'color': '#9b9b9b',
   },
 };
 
