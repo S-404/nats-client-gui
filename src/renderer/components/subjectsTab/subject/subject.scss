@@ -3,11 +3,9 @@
 .subject-item {
   display: flex;
   flex-direction: column;
-  border: 1px solid #212121;
+  border: 1px solid $inputBorderFgColorInactive;
   border-radius: 4px;
   padding: .5em;
-  //margin-bottom: .5em;
-  //width: 100%;
   cursor: pointer;
   user-select: none;
   overflow: hidden;
@@ -15,7 +13,7 @@
   transition: all .5s ease;
 
   &:hover {
-    border-color: #5e5e5e;
+    border-color: $inputBorderFgColorHover;
     transition: all .5s ease;
 
     .subject-item__header {
@@ -26,11 +24,11 @@
   }
 
   &:active {
-    border-color: gray;
+    border-color: $inputBorderFgColorActive;
   }
 
   &_selected {
-    border-color: lightgray;
+    border-color: $inputBorderFgColorSelected;
   }
 
   hr {
@@ -47,15 +45,15 @@
       font-weight: 600;
 
       &_request {
-        color: green;
+        color: $green;
       }
 
       &_publish {
-        color: #f56c22;
+        color: $orange;
       }
 
       &_subscribe {
-        color: #a84a4a;
+        color: $red;
       }
     }
 
@@ -78,7 +76,7 @@
     .subject-item__name {
       font-size: 12px;
       font-family: monospace;
-      color: lightgray;
+      color: $inputBorderFgColorSelected;
       word-wrap: break-word;
     }
   }

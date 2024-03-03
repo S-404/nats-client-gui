@@ -2,12 +2,13 @@ $fgColor: white;
 $bgColor: black;
 $borderFgColor: #033538;
 $inputBorderFgColor: #3d3d3d;
+$inputBorderFgColorInactive: #212121;
 $inputBorderFgColorHover: #5e5e5e;
-$inputBorderFgColorFocus: #adadad;
-$buttonFgColor: blue;
-$buttonFgColorSecondary: #5e5e5e;
-$buttonFgColorAction: #b34a00;
-$buttonBgColorHover: #adadad;
-$scrollbarBgColor: blue;
-$listFgColorSelected: blue;
-$listBgColorSelected: #3d3d3d;
+$inputBorderFgColorActive: gray;
+$inputBorderFgColorSelected: lightgray;
+$hintColor: #545454;
+
+
+$green: green;
+$orange: #f56c22;
+$red: #a84a4a;

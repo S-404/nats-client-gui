@@ -1,3 +1,5 @@
+@import "../shared/colors";
+
 .publish-tab-container {
   display: flex;
   flex-direction: column;
@@ -13,11 +15,12 @@
 
     .payload {
       height: calc(100% - 80px);
+      position: relative;
       .payload__checker{
-        position: sticky;
-        bottom: 5em;
-        padding: 1em .5em 0 ;
-        color: #545454;
+        position: absolute;
+        bottom: .5em;
+        left: .5em;
+        color: $hintColor;
       }
     }
   }

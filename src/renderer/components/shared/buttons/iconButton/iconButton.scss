@@ -1,13 +1,15 @@
+@import "../../colors";
+
 .icon-button {
-  width: 1em;
-  height: 1em;
+  width: 1.2em;
+  height: 1.2em;
   position: relative;
-  background-color: black;
+  background-color: $bgColor;
   border: none;
   cursor: pointer;
   transition: all .3s ease;
 
-  &:hover{
+  &:hover {
     scale: 1.2;
     transition: all .3s ease;
   }
