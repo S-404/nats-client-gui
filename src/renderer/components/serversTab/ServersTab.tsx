@@ -5,30 +5,40 @@ import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import { observer } from 'mobx-react';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
+import ServerConnectionsStore, {
+  CurrentConnectionType,
+  ServerConnectionType
+} from '#renderer/store/ServerConnectionsStore.ts';
+import { useModal } from '#renderer/hooks/useModal.ts';
+import SavedServersModal from '#renderer/components/serversTab/savedServers/SavedServersModal.tsx';
+import { v4 as uuid } from 'uuid';
+
 import './serversTab.scss';
+import dayjs from 'dayjs';
 
 
 export const ServersTab: FC = observer(() => {
   const { isConnected } = NatsClientStore;
-  const [host, setHost] = useState<string>('');
-  const [port, setPort] = useState<string>('');
-  const [token, setToken] = useState<string>('');
+  const { currentConnection, connections } = ServerConnectionsStore;
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const { isOpened, open, close } = useModal();
+
+
+  const updateConnection = <
+    K extends keyof typeof currentConnection,
+    V extends typeof currentConnection[K]
+  >(key: K, value: V) => {
+    ServerConnectionsStore.setCurrentConnection({
+      ...currentConnection,
+      [key]: value,
+    });
+  };
 
   useEffect(() => {
     const checkStore = async () => {
-      const attrMap = {
-        'host': setHost,
-        'port': setPort,
-        'token': setToken,
-      };
-
-      for (const attr of Object.keys(attrMap)) {
-        const value = await appActionDispatcher('storeGet', attr);
-        if (value) {
-          const setState = attrMap[attr];
-          setState(value);
-        }
+      const latestConnection = await appActionDispatcher('storeGet', 'latestConnection');
+      if (latestConnection) {
+        ServerConnectionsStore.setCurrentConnection(latestConnection);
       }
     };
 
@@ -36,19 +46,30 @@ export const ServersTab: FC = observer(() => {
   }, []);
 
 
-  const storeSave = async () => {
-    await appActionDispatcher('storeSave', { host });
-    await appActionDispatcher('storeSave', { port });
-    await appActionDispatcher('storeSave', { token });
+  const saveToStore = (connection: CurrentConnectionType) => {
+    if (isSaved) return;
+
+    const newConnection: ServerConnectionType = {
+      ...connection,
+      id: uuid(),
+      created: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    };
+    appActionDispatcher('storeSave', {
+      [`connections.${newConnection.id}`]: { ...newConnection }
+    });
+    ServerConnectionsStore.addConnection(newConnection);
     setIsSaved(true);
+
   };
 
   useEffect(() => {
     setIsSaved(false);
-  }, [host, port, token]);
+  }, [currentConnection, isOpened]);
 
   const connect = async () => {
+    const { host, port, token } = currentConnection;
     await appActionDispatcher('natsConnect', { host, port, token });
+    await appActionDispatcher('storeSave', { latestConnection: { ...currentConnection } });
   };
 
   const disconnect = async () => {
@@ -61,22 +82,22 @@ export const ServersTab: FC = observer(() => {
         <div className="inputs">
           <MyInput
             title={'Host'}
-            text={host}
+            text={currentConnection.host}
             disabled={isConnected}
-            onChange={(e) => setHost(e.target.value)}
+            onChange={(e) => updateConnection('host', e.target.value)}
           />
           <MyInput
             title={'Port'}
-            text={port}
+            text={currentConnection.port}
             disabled={isConnected}
-            onChange={(e) => setPort(e.target.value)}
+            onChange={(e) => updateConnection('port', e.target.value)}
           />
           <MyInput
             title={'Token'}
-            text={token}
+            text={currentConnection.token}
             disabled={isConnected}
             isSecret={isConnected && true}
-            onChange={(e) => setToken(e.target.value)}
+            onChange={(e) => updateConnection('token', e.target.value)}
           />
         </div>
 
@@ -94,19 +115,27 @@ export const ServersTab: FC = observer(() => {
                   text={'Connect'}
                   onClick={connect}
                   color={'green'}
-                  disabled={!host}
+                  disabled={!currentConnection.host}
                 />
                 <MyButton
                   text={isSaved ? 'Saved' : 'Save'}
-                  onClick={storeSave}
+                  onClick={() => saveToStore(currentConnection)}
                   color={isSaved ? 'white' : 'green'}
-                  disabled={!host}
+                  disabled={!currentConnection.host}
+                />
+                <MyButton
+                  text={'Load'}
+                  color={'white'}
+                  onClick={open}
                 />
               </>
             }
           </>
         </div>
       </div>
+      <SavedServersModal
+        isModalOpened={isOpened}
+        closeModal={close}/>
     </TabContainer>
   );
 });

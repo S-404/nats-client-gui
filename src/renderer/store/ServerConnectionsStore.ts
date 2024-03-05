@@ -1,6 +1,4 @@
 import { makeAutoObservable } from 'mobx';
-import { v4 as uuid } from 'uuid';
-import dayjs from 'dayjs';
 
 export type ServerConnectionType = {
   id: string;
@@ -10,22 +8,22 @@ export type ServerConnectionType = {
   created: string;
 }
 
+export type CurrentConnectionType = Omit<ServerConnectionType, 'id' | 'created'>
+
 class ServerConnectionsStore {
-  currentConnection: ServerConnectionType;
+  currentConnection: CurrentConnectionType;
   connections: ServerConnectionType[] = [];
 
   constructor() {
     this.currentConnection = {
-      id: uuid(),
       host: '',
       port: '',
       token: '',
-      created: dayjs().format('YYYY-MM-DD HH:mm:ss'),
     };
     makeAutoObservable(this);
   }
 
-  setCurrentConnection(connection: ServerConnectionType) {
+  setCurrentConnection(connection: CurrentConnectionType) {
     this.currentConnection = { ...connection };
   }
 
@@ -43,7 +41,6 @@ class ServerConnectionsStore {
   }
 
   removeConnection(id: string) {
-    console.log('targetdel', this.connections.filter(item => item.id === id))
     this.connections = this.connections.filter(item => item.id !== id);
   }
 }
