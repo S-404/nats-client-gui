@@ -31,7 +31,7 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({ isModalOpen
   useEffect(() => {
     const loadSavedSubjects = async () => {
       const storedSubjects = await appActionDispatcher('storeGet', 'subjects');
-      if (savedSubjects) {
+      if (storedSubjects) {
         const result = Object
           .keys(storedSubjects)
           .reduce((acc: SubjectItem[], key: string) => {
