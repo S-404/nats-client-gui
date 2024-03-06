@@ -4,14 +4,21 @@ import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
+import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import { appActionDispatcher } from '#renderer/bridge';
 import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts';
+import PublishedSubjectsStore from '#renderer/store/PublishedSubjectsStore.ts';
+import { useModal } from '#renderer/hooks/useModal.ts';
+import PublishedSubjectsModal from '#renderer/components/publishTab/publishedSubjects/PublishedSubjectsModal.tsx';
+
 import './publishTab.scss';
+
 
 export const PublishTab: FC = observer(() => {
   const { subjects, isConnected, subscribers, selectedSubject } = NatsClientStore;
-  const [subject, setSubject] = useState<string>('');
+  const { currentSubject: subject } = PublishedSubjectsStore;
   const [payload, setPayload] = useState<string>('');
+  const { isOpened, open, close } = useModal();
 
   const subscribed = useMemo(() => {
     return subscribers.includes(selectedSubject?.id);
@@ -26,19 +33,37 @@ export const PublishTab: FC = observer(() => {
     NatsClientStore.updateSubject(selectedSubject?.id, { [attr]: newValue });
   };
 
+  const setSubject = (value: string) => {
+    PublishedSubjectsStore.setCurrentSubject(value);
+  };
+
+  const savePublishedSubject = async () => {
+    PublishedSubjectsStore.addPublishedSubject(subject);
+
+    const stored: string[] = (await appActionDispatcher('storeGet', 'publishedSubjects')) ?? [];
+    const subjectsSet = new Set(stored);
+    subjectsSet.add(subject)
+    appActionDispatcher('storeSave', {
+      publishedSubjects: Array.from(subjectsSet)
+    });
+  };
+
   const request = () => {
     updateSubject('method', 'request');
+    savePublishedSubject();
     appActionDispatcher('natsRequest', { id: selectedSubject?.id, subject, payload });
   };
 
   const publish = () => {
     updateSubject('method', 'publish');
+    savePublishedSubject();
     appActionDispatcher('natsPublish', { id: selectedSubject?.id, subject, payload });
   };
 
   const subscribe = () => {
     updateSubject('method', 'subscribe');
     NatsClientStore.addSubscriber(selectedSubject?.id);
+    savePublishedSubject();
     appActionDispatcher('natsSubscribe', { id: selectedSubject?.id, subject });
   };
 
@@ -62,9 +87,9 @@ export const PublishTab: FC = observer(() => {
   const payloadChecker = useMemo(() => {
     let result = 'ok';
     try {
-      JSON.parse(payload || '{}')
+      JSON.parse(payload || '{}');
     } catch (e) {
-      result = e.message
+      result = e.message;
     }
     return result;
   }, [payload]);
@@ -89,6 +114,10 @@ export const PublishTab: FC = observer(() => {
               title={'Subject'}
               onChange={(e) => setSubject(e.target.value)}
             />
+            <IconButton
+              onClick={open}
+              iconType={'search'}
+            />
           </div>
 
           <div className="payload">
@@ -97,8 +126,8 @@ export const PublishTab: FC = observer(() => {
               text={payload ?? ''}
               onChange={(e) => setPayload(e.target.value)}
             />
-            <div className='payload__checker'>
-              <a>JSON.parse: { payloadChecker }</a>
+            <div className="payload__checker">
+              <a>JSON.parse: {payloadChecker}</a>
             </div>
           </div>
         </div>
@@ -124,6 +153,7 @@ export const PublishTab: FC = observer(() => {
           />
         </div>
       </div>
+      <PublishedSubjectsModal isModalOpened={isOpened} closeModal={close}/>
     </TabContainer>
   );
 });

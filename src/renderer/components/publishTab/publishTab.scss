@@ -10,13 +10,25 @@
     height: 100%;
 
     .subject {
+      position: relative;
       margin-bottom: 1em;
+
+      input {
+        padding-right: 2em;
+      }
+
+      .icon-button {
+        position: absolute;
+        top: 1em;
+        right: .6em;
+      }
     }
 
     .payload {
       height: calc(100% - 80px);
       position: relative;
-      .payload__checker{
+
+      .payload__checker {
         position: absolute;
         bottom: .5em;
         left: .5em;

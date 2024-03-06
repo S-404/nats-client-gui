@@ -1,11 +1,12 @@
 import React, { FC, MouseEvent } from 'react';
 import RemoveIcon from '#renderer/components/shared/buttons/iconButton/icons/removeIcon/RemoveIcon.tsx';
 import './iconButton.scss';
+import SearchIcon from '#renderer/components/shared/buttons/iconButton/icons/searchIcon/SearchIcon.tsx';
 
 
 interface IIconButton {
   onClick: () => void;
-  iconType: 'remove';
+  iconType: 'remove' | 'search';
 }
 
 const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
@@ -22,6 +23,9 @@ const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
     >
       {iconType === 'remove' && (
         <RemoveIcon/>
+      )}
+      {iconType === 'search' && (
+        <SearchIcon/>
       )}
     </button>
   );
