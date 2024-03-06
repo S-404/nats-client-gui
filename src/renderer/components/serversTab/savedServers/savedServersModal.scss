@@ -2,7 +2,7 @@
 
 .saved-connections {
   width: 100%;
-  padding: 0 2em;
+  padding: 0 3em;
   display: flex;
   flex-direction: column;
 
@@ -34,7 +34,7 @@
     .connection__remove-button {
       display: none;
       position: absolute;
-      top: 2.5em;
+      top: 35%;
       right: 1em;
       scale: 1.3;
     }

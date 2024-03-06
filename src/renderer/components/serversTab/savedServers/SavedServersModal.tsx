@@ -62,10 +62,12 @@ const SavedServersModal: FC<ISavedServersModalProps> = observer(({ isModalOpened
             >
               <p><i>host:</i> {item.host}</p>
               <p><i>port:</i> {item.port}</p>
-              <p><i>created:</i> {item.created}</p>
             </div>
             <div className={'connection__remove-button'}>
-              <IconButton onClick={() => removeFromStore(item.id)} iconType={'remove'}/>
+              <IconButton
+                onClick={() => removeFromStore(item.id)}
+                iconType={'remove'}
+              />
             </div>
           </div>
         ))}

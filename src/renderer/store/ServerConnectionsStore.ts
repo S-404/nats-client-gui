@@ -1,17 +1,14 @@
 import { makeAutoObservable } from 'mobx';
 
 export type ServerConnectionType = {
-  id: string;
+  id?: string;
   host: string;
   port?: string;
   token?: string;
-  created: string;
 }
 
-export type CurrentConnectionType = Omit<ServerConnectionType, 'id' | 'created'>
-
 class ServerConnectionsStore {
-  currentConnection: CurrentConnectionType;
+  currentConnection: ServerConnectionType;
   connections: ServerConnectionType[] = [];
 
   constructor() {
@@ -23,7 +20,7 @@ class ServerConnectionsStore {
     makeAutoObservable(this);
   }
 
-  setCurrentConnection(connection: CurrentConnectionType) {
+  setCurrentConnection(connection: ServerConnectionType) {
     this.currentConnection = { ...connection };
   }
 

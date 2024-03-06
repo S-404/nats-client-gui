@@ -5,21 +5,16 @@ import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import { observer } from 'mobx-react';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
-import ServerConnectionsStore, {
-  CurrentConnectionType,
-  ServerConnectionType
-} from '#renderer/store/ServerConnectionsStore.ts';
+import ServerConnectionsStore, { ServerConnectionType } from '#renderer/store/ServerConnectionsStore.ts';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import SavedServersModal from '#renderer/components/serversTab/savedServers/SavedServersModal.tsx';
-import { v4 as uuid } from 'uuid';
 
 import './serversTab.scss';
-import dayjs from 'dayjs';
 
 
 export const ServersTab: FC = observer(() => {
   const { isConnected } = NatsClientStore;
-  const { currentConnection, connections } = ServerConnectionsStore;
+  const { currentConnection } = ServerConnectionsStore;
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const { isOpened, open, close } = useModal();
 
@@ -46,13 +41,12 @@ export const ServersTab: FC = observer(() => {
   }, []);
 
 
-  const saveToStore = (connection: CurrentConnectionType) => {
+  const saveToStore = (connection: ServerConnectionType) => {
     if (isSaved) return;
 
     const newConnection: ServerConnectionType = {
       ...connection,
-      id: uuid(),
-      created: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+      id: `${connection.host}:${connection.port}`,
     };
     appActionDispatcher('storeSave', {
       [`connections.${newConnection.id}`]: { ...newConnection }
