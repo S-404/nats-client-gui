@@ -25,8 +25,6 @@ class SavedSubjectsStore {
   removeSavedSubject(id: string) {
     this.savedSubjects = this.savedSubjects.filter(item => item.id !== id);
   }
-
-
 }
 
 

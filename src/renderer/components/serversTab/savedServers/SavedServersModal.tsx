@@ -15,9 +15,12 @@ interface ISavedServersModalProps {
 const SavedServersModal: FC<ISavedServersModalProps> = observer(({ isModalOpened, closeModal }) => {
   const { connections } = ServerConnectionsStore;
 
-  const removeFromStore = (id: string) => {
+  const removeFromStore = async (id: string) => {
     ServerConnectionsStore.removeConnection(id);
-    appActionDispatcher('storeDelete', `connections.${id}`);
+    const stored: ServerConnectionType [] = (await appActionDispatcher('storeGet', 'connections')) ?? [];
+    appActionDispatcher('storeSave', {
+      connections: stored.filter((item) => item.id !== id)
+    });
   };
 
   const loadFromStore = (connection: ServerConnectionType) => {
@@ -29,15 +32,7 @@ const SavedServersModal: FC<ISavedServersModalProps> = observer(({ isModalOpened
   useEffect(() => {
     const loadSavedConnections = async () => {
       const storedConnections = await appActionDispatcher('storeGet', 'connections');
-      if (storedConnections) {
-        const result = Object
-          .keys(storedConnections)
-          .reduce((acc: ServerConnectionType[], key: string) => {
-            acc.push({ ...storedConnections[key] });
-            return acc;
-          }, []);
-        ServerConnectionsStore.setConnections(result);
-      }
+      ServerConnectionsStore.setConnections([...storedConnections] ?? []);
     };
 
     loadSavedConnections();

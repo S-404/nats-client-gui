@@ -40,20 +40,25 @@ export const ServersTab: FC = observer(() => {
     checkStore();
   }, []);
 
-
-  const saveToStore = (connection: ServerConnectionType) => {
+  const saveToStore = async (connection: ServerConnectionType) => {
     if (isSaved) return;
 
-    const newConnection: ServerConnectionType = {
+    const newConnection = {
       ...connection,
       id: `${connection.host}:${connection.port}`,
     };
+    const stored: ServerConnectionType & {
+      id: [string]
+    }[] = (await appActionDispatcher('storeGet', 'connections')) ?? [];
+
+    const connectionsSet = new Set(stored);
+    connectionsSet.add({ ...newConnection, id: [newConnection.id] });
+
     appActionDispatcher('storeSave', {
-      [`connections.${newConnection.id}`]: { ...newConnection }
+      connections: Array.from(connectionsSet)
     });
     ServerConnectionsStore.addConnection(newConnection);
     setIsSaved(true);
-
   };
 
   useEffect(() => {
