@@ -2,42 +2,50 @@
 
 .saved-published-subjects {
   width: 100%;
+  height: 100%;
   padding: 0 3em;
   display: flex;
   flex-direction: column;
 
-  &__published-subject {
-    position: relative;
+  &__search {
+    padding-bottom: 1em;
+  }
+
+  &__published-subjects {
     width: 100%;
+    overflow-y: scroll;
 
     .published-subject__item {
+      position: relative;
       border: 1px solid $inputBorderFgColorInactive;
       border-radius: 4px;
       padding: .5em;
       cursor: pointer;
       user-select: none;
       margin-bottom: .5em;
+      overflow-x: hidden;
 
       p {
         padding: .3em 0;
+        word-wrap: anywhere;
       }
 
       &:hover {
         border-color: $inputBorderFgColorHover;
       }
-    }
 
-    .published-subject__remove-button {
-      display: none;
-      position: absolute;
-      top: 30%;
-      right: 1em;
-      scale: 1.3;
-    }
-
-    &:hover {
       .published-subject__remove-button {
-        display: block;
+        display: none;
+        position: absolute;
+        top: 30%;
+        right: 1em;
+        scale: 1.3;
+      }
+
+      &:hover {
+        .published-subject__remove-button {
+          display: block;
+        }
       }
     }
   }

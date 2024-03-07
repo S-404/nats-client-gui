@@ -42,7 +42,7 @@ export const PublishTab: FC = observer(() => {
 
     const stored: string[] = (await appActionDispatcher('storeGet', 'publishedSubjects')) ?? [];
     const subjectsSet = new Set(stored);
-    subjectsSet.add(subject)
+    subjectsSet.add(subject);
     appActionDispatcher('storeSave', {
       publishedSubjects: Array.from(subjectsSet)
     });
@@ -71,6 +71,14 @@ export const PublishTab: FC = observer(() => {
     NatsClientStore.removeSubscriber(selectedSubject?.id);
     appActionDispatcher('natsUnsubscribe', { id: selectedSubject?.id, subject });
   };
+
+  const onSelectPublishedSubjectHandler = (publishedSubject: string) => {
+    if(publishedSubject !== subject && subscribed){
+      unsubscribe()
+    }
+    PublishedSubjectsStore.setCurrentSubject(publishedSubject);
+    close();
+  }
 
   useEffect(() => {
     updateSubject('name', subject);
@@ -153,7 +161,11 @@ export const PublishTab: FC = observer(() => {
           />
         </div>
       </div>
-      <PublishedSubjectsModal isModalOpened={isOpened} closeModal={close}/>
+      <PublishedSubjectsModal
+        isModalOpened={isOpened}
+        closeModal={close}
+        onSelect={onSelectPublishedSubjectHandler}
+      />
     </TabContainer>
   );
 });
