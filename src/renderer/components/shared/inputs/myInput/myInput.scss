@@ -4,12 +4,32 @@
 .my-input {
   @include common-input;
 
+  position: relative;
+
   .input {
     font-family: monospace;
 
     &:disabled {
       color: gray;
     }
+
+  }
+
+  .clear-button {
+    display: none;
+    position: absolute;
+    top: 30%;
+    right: .3em;
+  }
+
+  &:hover {
+    .clear-button {
+      display: block;
+    }
+  }
+
+  .clear-button_hidden {
+    display: none;
   }
 }
 

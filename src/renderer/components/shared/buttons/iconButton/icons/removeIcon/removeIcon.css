@@ -24,3 +24,11 @@
     background-color: red;
     transform: rotate(-45deg);
 }
+
+.remove-icon_grey:before {
+    background-color: #575757;
+}
+
+.remove-icon_grey:after {
+    background-color: #575757;
+}

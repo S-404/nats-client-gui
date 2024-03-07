@@ -1,9 +1,13 @@
 import React, { FC } from 'react';
 import './removeIcon.css';
 
-const RemoveIcon: FC = () => {
+interface IRemoveIconProps {
+  color?: 'grey' | 'red';
+}
+
+const RemoveIcon: FC<IRemoveIconProps> = ({ color = 'red' }) => {
   return (
-    <div className={'remove-icon'}/>
+    <div className={`remove-icon remove-icon_${color}`}/>
   );
 };
 

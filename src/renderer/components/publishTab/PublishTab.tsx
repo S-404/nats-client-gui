@@ -121,6 +121,7 @@ export const PublishTab: FC = observer(() => {
               text={subject ?? ''}
               title={'Subject'}
               onChange={(e) => setSubject(e.target.value)}
+              clearButton={false}
             />
             <IconButton
               onClick={open}

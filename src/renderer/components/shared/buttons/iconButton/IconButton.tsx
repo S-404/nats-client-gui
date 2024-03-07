@@ -6,7 +6,7 @@ import SearchIcon from '#renderer/components/shared/buttons/iconButton/icons/sea
 
 interface IIconButton {
   onClick: () => void;
-  iconType: 'remove' | 'search';
+  iconType: 'remove' | 'search' | 'clear';
 }
 
 const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
@@ -26,6 +26,9 @@ const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
       )}
       {iconType === 'search' && (
         <SearchIcon/>
+      )}
+      {iconType === 'clear' && (
+        <RemoveIcon color={'grey'}/>
       )}
     </button>
   );
