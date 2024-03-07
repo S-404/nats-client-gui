@@ -2,15 +2,21 @@
 
 .saved-connections {
   width: 100%;
+  height: 100%;
   padding: 0 3em;
   display: flex;
   flex-direction: column;
 
-  &__connection {
-    position: relative;
+  &__search {
+    padding-bottom: 1em;
+  }
+
+  &__connections {
     width: 100%;
+    overflow-y: scroll;
 
     .connection__item {
+      position: relative;
       border: 1px solid $inputBorderFgColorInactive;
       border-radius: 4px;
       padding: .5em;
@@ -18,30 +24,32 @@
       user-select: none;
       margin-bottom: .5em;
 
-      p {
-        padding: .3em 0;
+      .item__content {
+        overflow-x: hidden;
 
-        i {
-          color: $hintColor;
+        p {
+          padding: .3em 0;
+          word-wrap: anywhere;
+          i {
+            color: $hintColor;
+          }
         }
+      }
+
+      .connection__remove-button {
+        display: none;
+        position: absolute;
+        top: 40%;
+        right: 1em;
+        scale: 1.3;
       }
 
       &:hover {
         border-color: $inputBorderFgColorHover;
-      }
-    }
 
-    .connection__remove-button {
-      display: none;
-      position: absolute;
-      top: 35%;
-      right: 1em;
-      scale: 1.3;
-    }
-
-    &:hover {
-      .connection__remove-button {
-        display: block;
+        .connection__remove-button {
+          display: block;
+        }
       }
     }
   }
