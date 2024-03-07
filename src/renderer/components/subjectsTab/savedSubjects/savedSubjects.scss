@@ -1,32 +1,42 @@
 @import "../../shared/colors";
 
 .saved-subjects {
-  width: 80%;
+  width: 100%;
+  height: 100%;
+  padding: 0 3em;
+  display: flex;
+  flex-direction: column;
 
-  &__subject {
+  &__search {
+    padding-bottom: 1em;
+  }
+
+  &__subjects {
     position: relative;
+    overflow-y: scroll;
 
-    .subject-item {
+    .subjects__subject-item {
+      position: relative;
       margin-bottom: .5em;
       border-color: $borderFgColor;
 
+      .subject-item__remove-button {
+        display: none;
+        position: absolute;
+        top: 2em;
+        right: 1em;
+        scale: 1.3;
+      }
+
       &:hover {
         border-color: $inputBorderFgColorHover;
+
+        .subject-item__remove-button {
+          display: block;
+        }
       }
     }
 
-    .subject__remove-button {
-      display: none;
-      position: absolute;
-      top: 2em;
-      right: 1em;
-      scale: 1.3;
-    }
 
-    &:hover {
-      .subject__remove-button {
-        display: block;
-      }
-    }
   }
 }
