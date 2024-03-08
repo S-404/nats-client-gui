@@ -1,5 +1,5 @@
-import LogMessagesStore from '#renderer/store/LogMessagesStore.ts';
+import LogMessagesStore, { LoggerMessageType } from '#renderer/store/LogMessagesStore.ts';
 
-export const addLogMessage = (message: string) => {
+export const addLogMessage = (message: LoggerMessageType) => {
   LogMessagesStore.addLogMessage(message);
 };

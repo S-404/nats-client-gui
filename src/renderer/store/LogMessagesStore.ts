@@ -1,17 +1,23 @@
 import { makeAutoObservable } from 'mobx';
 
+export type LoggerMessageType = {
+  time: string;
+  message: string;
+  type: 'info' | 'warn' | 'error' | 'success'
+}
+
 class LogMessagesStore {
 
-  logMessages: string[];
+  logMessages: LoggerMessageType[];
 
   constructor() {
     this.logMessages = [];
     makeAutoObservable(this);
   }
 
-  addLogMessage(message: string) {
+  addLogMessage(message: LoggerMessageType) {
     this.logMessages.push(message);
-    if (this.logMessages.length > 1000) {
+    if (this.logMessages.length > 600) {
       this.logMessages = this.logMessages.slice(100);
     }
   }

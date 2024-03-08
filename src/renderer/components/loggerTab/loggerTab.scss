@@ -1,4 +1,61 @@
+@import "../shared/colors";
 
 .logger-tab-container {
   height: 100%;
+
+  .log-list {
+    overflow-y: scroll;
+    height: 100%;
+
+    border: 2px solid $inputBorderFgColor;
+    border-radius: .5em;
+    background-color: $bgColor;
+    color: $fgColor;
+    padding: 1em 1.5em 1em 0.5em;
+
+    &:hover {
+      border-color: $inputBorderFgColorHover;
+      transition: all .5s ease;
+    }
+
+    &__log-item {
+      font-family: monospace;
+      padding: 2px 0;
+
+
+
+      &:active{
+        border-color: #212121;
+      }
+
+      .log-item__time {
+        color: $hintColor;
+      }
+
+      .log-item__message {
+
+        &:hover{
+          border-bottom: 2px solid $inputBorderFgColorHover;
+          cursor: copy;
+          padding-bottom: 0;
+        }
+
+        &_info {
+          color: white;
+        }
+
+        &_success {
+          color: green;
+        }
+
+        &_error {
+          color: red;
+        }
+
+        &_warn {
+          color: yellow;
+        }
+      }
+    }
+  }
 }
