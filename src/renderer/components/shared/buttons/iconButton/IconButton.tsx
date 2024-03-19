@@ -1,12 +1,15 @@
 import React, { FC, MouseEvent } from 'react';
 import RemoveIcon from '#renderer/components/shared/buttons/iconButton/icons/removeIcon/RemoveIcon.tsx';
-import './iconButton.scss';
 import SearchIcon from '#renderer/components/shared/buttons/iconButton/icons/searchIcon/SearchIcon.tsx';
+import CopyIcon from '#renderer/components/shared/buttons/iconButton/icons/copyIcon/CopyIcon.tsx';
+
+import './iconButton.scss';
+
 
 
 interface IIconButton {
   onClick: () => void;
-  iconType: 'remove' | 'search' | 'clear';
+  iconType: 'remove' | 'search' | 'clear' | 'copy';
 }
 
 const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
@@ -29,6 +32,9 @@ const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
       )}
       {iconType === 'clear' && (
         <RemoveIcon color={'grey'}/>
+      )}
+      {iconType === 'copy' && (
+        <CopyIcon/>
       )}
     </button>
   );
