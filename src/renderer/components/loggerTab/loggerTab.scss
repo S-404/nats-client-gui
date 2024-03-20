@@ -32,6 +32,9 @@
           position: absolute;
           top: -.1em;
           scale: 0.8;
+          &:active{
+            scale: 0.9;
+          }
         }
       }
 
@@ -52,7 +55,7 @@
       .log-item__message {
 
         &:hover {
-          border-bottom: 2px solid $inputBorderFgColorHover;
+          border-bottom: 2px solid $inputBorderFgColorInactive;
           cursor: copy;
           padding-bottom: 0;
         }
