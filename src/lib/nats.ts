@@ -128,7 +128,11 @@ class NatsGateway {
         const subjectId = this.#subscribers[incoming.subject];
         if (subjectId) {
           const decoded = codec.decode(incoming.data);
-          logger({ message: `Publication with subscribed subject '${incoming.subject}'`, type: 'success' });
+          logger({
+            message: `Publication with subscribed subject '${incoming.subject}'`,
+            type: 'success',
+            subject: incoming.subject,
+          });
           eventbus.emit(NATS_MESSAGE_ADD, {
             subjectId,
             packet: {
