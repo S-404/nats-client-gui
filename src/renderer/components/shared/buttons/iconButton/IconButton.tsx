@@ -4,12 +4,14 @@ import SearchIcon from '#renderer/components/shared/buttons/iconButton/icons/sea
 import CopyIcon from '#renderer/components/shared/buttons/iconButton/icons/copyIcon/CopyIcon.tsx';
 
 import './iconButton.scss';
+import AddIcon from '#renderer/components/shared/buttons/iconButton/icons/addIcon/AddIcon.tsx';
+import DotsIcon from '#renderer/components/shared/buttons/iconButton/icons/dotsIcon/DotsIcon.tsx';
 
 
 
 interface IIconButton {
   onClick: () => void;
-  iconType: 'remove' | 'search' | 'clear' | 'copy';
+  iconType: 'remove' | 'search' | 'clear' | 'copy' | 'add' | 'dots';
 }
 
 const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
@@ -35,6 +37,12 @@ const IconButton: FC<IIconButton> = ({ onClick, iconType }) => {
       )}
       {iconType === 'copy' && (
         <CopyIcon/>
+      )}
+      {iconType === 'add' && (
+        <AddIcon/>
+      )}
+      {iconType === 'dots' && (
+        <DotsIcon/>
       )}
     </button>
   );
