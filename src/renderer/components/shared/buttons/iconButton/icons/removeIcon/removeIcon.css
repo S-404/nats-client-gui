@@ -1,34 +1,11 @@
 .remove-icon {
-    position: absolute;
-    top: .25em;
+    filter: invert(50%);
 }
 
-.remove-icon:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1em;
-    height: 2px;
-    background-color: red;
-    transform: rotate(45deg);
+.remove-icon_red{
+    filter: invert(14%) sepia(78%) saturate(4702%) hue-rotate(355deg) brightness(111%) contrast(120%);
 }
 
-.remove-icon:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1em;
-    height: 2px;
-    background-color: red;
-    transform: rotate(-45deg);
-}
-
-.remove-icon_grey:before {
-    background-color: #575757;
-}
-
-.remove-icon_grey:after {
-    background-color: #575757;
+.remove-icon_grey{
+    filter: invert(50%);
 }

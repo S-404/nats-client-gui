@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import XIcon from '/icon-x.png';
 import './removeIcon.css';
 
 interface IRemoveIconProps {
@@ -7,7 +8,11 @@ interface IRemoveIconProps {
 
 const RemoveIcon: FC<IRemoveIconProps> = ({ color = 'red' }) => {
   return (
-    <div className={`remove-icon remove-icon_${color}`}/>
+    <img
+      className={`remove-icon remove-icon_${color}`}
+      src={XIcon}
+      alt={'remove'}
+    />
   );
 };
 

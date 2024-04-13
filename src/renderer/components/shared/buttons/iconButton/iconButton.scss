@@ -8,6 +8,13 @@
   border: none;
   cursor: pointer;
   transition: all .3s ease;
+  user-select: none;
+
+  &_bordered{
+    background-color: $bgColor;
+    border-radius: 50%;
+    border: 1px solid $inputBorderFgColorInactive;
+  }
 
   &:hover {
     scale: 1.2;

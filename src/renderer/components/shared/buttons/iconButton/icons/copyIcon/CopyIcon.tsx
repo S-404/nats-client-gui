@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import copiedIcon from '/copied-icon.svg';
+import copiedIcon from '/icon-copy.png';
 import './copyIcon.css'
 
 
