@@ -23,7 +23,8 @@
       .subject-item__remove-button {
         display: none;
         position: absolute;
-        top: 2em;
+        top:60%;
+        transform: translate(-50%, -50%);
         right: 1em;
         scale: 1.3;
       }

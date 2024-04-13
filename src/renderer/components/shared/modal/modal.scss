@@ -25,12 +25,17 @@
     box-shadow: 2px 2px 5px black;
 
     .modal-content__header {
+      position: relative;
       padding: 1em;
       display: flex;
       justify-content: space-between;
       align-items: center;
 
       .modal-title {
+
+      }
+
+      .modal-close-button{
 
       }
     }

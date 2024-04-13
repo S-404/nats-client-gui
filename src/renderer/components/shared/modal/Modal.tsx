@@ -27,10 +27,13 @@ const Modal: FC<IModal> = ({ isModalOpen, title, children, onClose }) => {
       >
         <div className={'modal-content__header'}>
           <h3 className="modal-title">{title}</h3>
-          <IconButton
-            onClick={onClose}
-            iconType={'remove'}
-          />
+          <div className={'modal-close-button'}>
+            <IconButton
+              onClick={onClose}
+              iconType={'clear'}
+            />
+          </div>
+
         </div>
         <hr/>
         <div className={'modal-content__body'}>

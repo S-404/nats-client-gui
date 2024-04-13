@@ -5,28 +5,44 @@
   height: 100%;
 
   .subjects-tab-container__buttons {
-    display: flex;
-    justify-content: start;
-    flex-wrap: wrap;
-    padding-bottom: .5em;
-    button {
-      margin: 0 .2em .5em;
-      width: 60px;
-    }
-  }
+    position: absolute;
+    top: .5em;
+    left: 95px;
+    scale: 1.3;
 
-  & > hr{
-    border-color: $inputBorderFgColor;
+    button {
+      margin: 0 .2em;
+    }
   }
 
   .subjects-tab-container__subject-list {
-    height: 90%;
+    height: 100%;
     overflow-y: scroll;
     padding-right: .2em;
-    padding-top: 1em;
 
-    .subject-item {
+    .subject-list-item {
+      position: relative;
       margin-bottom: .5em;
+
+      &__buttons {
+        scale: 1.3;
+        display: none;
+        position: absolute;
+        top: .5em;
+        right: 1em;
+
+        button {
+          margin-left: .3em;
+        }
+      }
+
+      &_selected {
+        > .subject-list-item__buttons {
+          display: block;
+        }
+      }
+
     }
+
   }
 }

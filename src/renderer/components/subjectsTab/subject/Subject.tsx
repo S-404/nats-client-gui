@@ -1,21 +1,16 @@
 import React, { FC } from 'react';
 import { SubjectItem } from '#renderer/store/NatsClientStore.ts';
-import MyButton from '#renderer/components/shared/buttons/myButton/MyButton.tsx';
 import './subject.scss';
 
 
 interface ISubject extends SubjectItem {
   isSelected?: boolean;
   onClick?: () => void;
-  removeSubject?: () => void;
-  saveSubject?: () => void;
 }
 
 const Subject: FC<ISubject> = ({
                                  isSelected,
                                  onClick,
-                                 removeSubject,
-                                 saveSubject,
                                  ...subject
                                }) => {
   return (
@@ -34,22 +29,6 @@ const Subject: FC<ISubject> = ({
           {subject.name}
         </div>
       </div>
-
-      {isSelected && <hr/>}
-
-      <div className="subject-item__buttons">
-        <MyButton
-          text={'Remove'}
-          color={'red'}
-          onClick={removeSubject}
-        />
-        <MyButton
-          text={'Save'}
-          color={'green'}
-          onClick={saveSubject}
-        />
-      </div>
-
     </div>
   );
 };

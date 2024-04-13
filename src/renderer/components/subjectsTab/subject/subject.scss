@@ -1,11 +1,12 @@
 @import "../../shared/colors";
 
 .subject-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   border: 1px solid $inputBorderFgColorInactive;
   border-radius: 4px;
-  padding: .5em;
+  padding: .5em .5em 0;
   cursor: pointer;
   user-select: none;
   overflow: hidden;
@@ -41,7 +42,7 @@
 
 
     .subject-item__method {
-      margin-bottom: .5em;
+      //margin-bottom: .5em;
       font-weight: 600;
 
       &_request {
@@ -54,18 +55,6 @@
 
       &_subscribe {
         color: $red;
-      }
-    }
-
-    .subject-item__buttons {
-      display: none;
-
-      .buttons__save {
-
-      }
-
-      .buttons__remove {
-        margin-left: .5em;
       }
     }
   }
@@ -82,26 +71,25 @@
   }
 
   .subject-item__buttons {
+    //background-color: red;
+    position: absolute;
+    top: 0;
+    right: 0;
     display: flex;
-    justify-content: end;
-    padding-top: .5em;
+    //justify-content: end;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    //height: 100%;
+    padding-top: .3em;
     overflow: hidden;
 
-    height: 1px;
+    //height: 1px;
     transition: all .3s ease;
 
     button{
       margin-left: .5em;
     }
-
   }
-
-  &_selected {
-    .subject-item__buttons {
-      height: 3em;
-      transition: all .2s ease;
-    }
-  }
-
-
 }

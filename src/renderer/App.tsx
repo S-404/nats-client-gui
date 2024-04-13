@@ -3,7 +3,7 @@ import { MessagesTab } from '#renderer/components/messagesTab';
 import { PublishTab } from '#renderer/components/publishTab';
 import { ServersTab } from '#renderer/components/serversTab';
 import { LoggerTab } from '#renderer/components/loggerTab';
-import { ReflexContainer, ReflexElement, ReflexSplitter } from 'react-reflex';
+import { ReflexContainer, ReflexElement, ReflexSplitter} from 'react-reflex';
 
 import 'react-reflex/styles.css';
 import './styles/react-reflex-override.css';
@@ -26,7 +26,7 @@ function App() {
         <ReflexElement className="body">
           <ReflexContainer orientation="vertical">
 
-            <ReflexElement size={320}>
+            <ReflexElement size={260}>
               <SubjectsTab/>
             </ReflexElement>
 

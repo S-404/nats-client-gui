@@ -2,8 +2,8 @@ import React, { FC, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import MyButton from '../shared/buttons/myButton/MyButton.tsx';
 import MySyntaxHighlighter from '#renderer/components/shared/syntaxHighlighter/MySyntaxHighlighter.tsx';
+import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 
 import './messageTab.scss';
 
@@ -48,27 +48,34 @@ export const MessagesTab: FC = observer(() => {
   return (
     <TabContainer name={'Messages'}>
       <div className="messages-tab-container">
-
-        <MySyntaxHighlighter
-          text={messages}
-        />
-
+        <div className="text-area">
+          <div className="text-area__input">
+            <MySyntaxHighlighter
+              text={messages}
+            />
+          </div>
+          <label className="text-area__label">
+            {isShownAll ? 'All' : 'Latest'}
+          </label>
+        </div>
         <div className="buttons">
-          <MyButton
-            text="Clear"
-            color="white"
-            onClick={clear}
-          />
-          <MyButton
-            text={isShownAll ? 'Only Latest' : 'Show All'}
-            color={'white'}
+          <IconButton
             onClick={() => setIsShownAll(prevState => !prevState)}
+            iconType={isShownAll ? 'message' : 'messages'}
+            title={isShownAll ? 'Show latest message' : 'Show all messages'}
+            bordered
           />
-          <MyButton
-            text={'Copy'}
-            color={'white'}
-            disabled={!messages.length}
+          <IconButton
             onClick={() => navigator.clipboard.writeText(messages)}
+            iconType={'copy'}
+            title={isShownAll ? 'Copy messages' : 'Copy message'}
+            bordered
+          />
+          <IconButton
+            onClick={clear}
+            iconType={'broom'}
+            title={'Clear messages'}
+            bordered
           />
         </div>
       </div>
