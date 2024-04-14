@@ -1,10 +1,10 @@
-# NATS.js Client
+# nats-js-client
 
 gui for nats.js client
 
 inspired by <a href="https://github.com/AlexxNB/natsman" target="_blank">natsman</a> 
 
-![img_6.png](public/img_6.png)
+![img_6.png](.github/readme/img_6.png)
 
 <hr/>
 
@@ -33,36 +33,36 @@ use compiled image from  ``/release`` directory
 
 connect to the server, you can save the latest state to storage
 
-![img.png](public/img.png)
+![img.png](.github/readme/img.png)
 
 
 ### add subject
 
-at the ``Subjects`` block press the ``add`` button.\
+at the ``Subjects`` block press the ``+ (add)`` button.\
 this will create empty ``Subject`` 
 
-![img_1.png](public/img_1.png)
+![img_1.png](.github/readme/img_1.png)
 
 or
 
-press the ``load`` button\
+press the ``🔍 (search)`` button\
 this will open a modal window with stored subjects 
 
-![img_2.png](public/img_2.png)
+![img_2.png](.github/readme/img_2.png)
 
 
 ### publish message
 
 put ``subject`` and ``payload`` and press one of the buttons corresponding to the Nats methods
 
-![img_3.png](public/img_3.png)
+![img_3.png](.github/readme/img_3.png)
 
 result of ``request`` or ``subscribtion`` will be shown at ``messages`` block
 
-![img_5.png](public/img_5.png)
+![img_5.png](.github/readme/img_5.png)
 
 ### save subject
 
 press ``save`` button on ``subject`` for saving it at storage
 
-![img_4.png](public/img_4.png)
+![img_4.png](.github/readme/img_4.png)
