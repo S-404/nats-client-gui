@@ -54,6 +54,7 @@ export const SubjectsTab: FC = observer(() => {
             iconType={'add'}
             title={'Add Subject'}
             bordered
+            iconModifiers={!subjects?.length && ['ping', 'green']}
           />
           <IconButton
             onClick={open}
@@ -74,11 +75,11 @@ export const SubjectsTab: FC = observer(() => {
             <div
               key={item.id}
               className={
-              `subject-list-item ${
-                selectedSubject?.id === item.id ? 
-                  'subject-list-item_selected' : 
-                  ''
-              }`}
+                `subject-list-item ${
+                  selectedSubject?.id === item.id ?
+                    'subject-list-item_selected' :
+                    ''
+                }`}
             >
               <div className={'subject-list-item__subject'}>
                 <Subject

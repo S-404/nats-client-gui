@@ -84,7 +84,11 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({ isModalOpen
                             {...item}
                           />
                           <div className={'subject-item__remove-button'}>
-                            <IconButton onClick={() => removeFromStore(item.id)} iconType={'remove'}/>
+                            <IconButton
+                              onClick={() => removeFromStore(item.id)}
+                              iconType={'remove'}
+                              iconModifiers={['red']}
+                            />
                           </div>
                         </div>
                       ))}

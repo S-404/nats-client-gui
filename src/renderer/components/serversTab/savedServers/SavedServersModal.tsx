@@ -91,6 +91,7 @@ const SavedServersModal: FC<ISavedServersModalProps> = observer(({ isModalOpened
                 <IconButton
                   onClick={() => removeFromStore(item.id)}
                   iconType={'remove'}
+                  iconModifiers={['red']}
                 />
               </div>
             </div>
