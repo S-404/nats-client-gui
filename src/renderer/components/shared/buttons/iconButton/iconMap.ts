@@ -8,6 +8,7 @@ import messages from '/icon-messages.png';
 import save from '/icon-save2.png';
 import search from '/icon-search.png'
 import x from '/icon-x.png';
+import scrollDown from '/icon-scroll-down.png';
 
 export const iconMap = {
   add,
@@ -21,6 +22,7 @@ export const iconMap = {
   search,
   clear: x,
   remove: x,
+  scrollDown,
 }
 
 

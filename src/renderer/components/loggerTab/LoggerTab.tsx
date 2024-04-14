@@ -19,7 +19,7 @@ export const LoggerTab: FC = observer(() => {
 
   const onScroll = (event: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-    if ((scrollHeight - clientHeight) - scrollTop === 0) {
+    if ((scrollHeight - clientHeight) - scrollTop <= 1) {
       setOnBottom(true);
     } else {
       setOnBottom(false);
@@ -29,6 +29,22 @@ export const LoggerTab: FC = observer(() => {
   return (
     <TabContainer name={'Logger'}>
       <div className="logger-tab-container">
+        <div className="logger-tab-container__buttons">
+          <IconButton
+            onClick={() => setOnBottom(prevState => !prevState)}
+            iconType={'scrollDown'}
+            title={'Auto scroll'}
+            iconModifiers={onBottom && ['green']}
+            bordered
+          />
+          <IconButton
+            onClick={() => LogMessagesStore.clear()}
+            iconType={'broom'}
+            title={'Clear'}
+            bordered
+          />
+        </div>
+
         <div
           ref={ref}
           className="log-list"
@@ -49,9 +65,9 @@ export const LoggerTab: FC = observer(() => {
                 {item.message}
               </a>
               {item.subject && (
-                <a className='copy-button'>
+                <a className="copy-button">
                   <IconButton
-                    iconType='copy'
+                    iconType="copy"
                     onClick={() => navigator.clipboard.writeText(item.subject)}
                   />
                 </a>
