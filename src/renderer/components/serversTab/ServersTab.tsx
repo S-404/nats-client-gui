@@ -68,25 +68,31 @@ export const ServersTab: FC = observer(() => {
     <TabContainer name={'Server connection'}>
       <div className="servers-tab-container">
         <div className="inputs">
-          <MyInput
-            title={'Host'}
-            text={currentConnection.host}
-            disabled={isConnected}
-            onChange={(e) => updateConnection('host', e.target.value)}
-          />
-          <MyInput
-            title={'Port'}
-            text={currentConnection.port}
-            disabled={isConnected}
-            onChange={(e) => updateConnection('port', e.target.value)}
-          />
-          <MyInput
-            title={'Token'}
-            text={currentConnection.token}
-            disabled={isConnected}
-            isSecret={isConnected && true}
-            onChange={(e) => updateConnection('token', e.target.value)}
-          />
+          <div className="inputs__input inputs__input_host">
+            <MyInput
+              title={'Host'}
+              text={currentConnection.host}
+              disabled={isConnected}
+              onChange={(e) => updateConnection('host', e.target.value)}
+            />
+          </div>
+          <div className="inputs__input inputs__input_port">
+            <MyInput
+              title={'Port'}
+              text={currentConnection.port}
+              disabled={isConnected}
+              onChange={(e) => updateConnection('port', e.target.value)}
+            />
+          </div>
+          <div className="inputs__input inputs__input_token">
+            <MyInput
+              title={'Token'}
+              text={currentConnection.token}
+              disabled={isConnected}
+              isSecret={isConnected && true}
+              onChange={(e) => updateConnection('token', e.target.value)}
+            />
+          </div>
         </div>
 
         <div className="buttons">
