@@ -116,8 +116,10 @@ class NatsGateway {
   }
 
   async unsubscribe({ subject }: Pick<NatsCommonRequest, 'subject'>) {
-    delete this.#subscribers[subject];
-    logger({ message: `Unsubscribed subject ${subject}`, type: 'warn' });
+    if(this.#subscribers[subject]){
+      delete this.#subscribers[subject];
+      logger({ message: `Unsubscribed subject ${subject}`, type: 'warn' });
+    }
   }
 
   async #subscribeIncoming() {
