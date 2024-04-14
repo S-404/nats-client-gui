@@ -26,7 +26,8 @@ const SavedServersModal: FC<ISavedServersModalProps> = observer(({ isModalOpened
     }
     return connections.filter(item => {
       return item.port.toLowerCase().includes(filter.toLowerCase()) ||
-        item.host.toLowerCase().includes(filter.toLowerCase());
+        item.host.toLowerCase().includes(filter.toLowerCase()) ||
+        item.title.toLowerCase().includes(filter.toLowerCase());
     });
   }, [filter, connections]);
 
