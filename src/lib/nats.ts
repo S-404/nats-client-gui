@@ -37,15 +37,15 @@ class NatsGateway {
       this.#conn = await connect({
         servers: server,
         token: config?.token || '',
-        reconnectTimeWait: 60 * 1000,
-        reconnectJitter: 10 * 1000,
+        reconnectTimeWait: 2 * 1000,
+        reconnectJitter: 2 * 1000,
         maxReconnectAttempts: -1,
       });
       logger({ message: 'Connected', type: 'success' });
       eventbus.emit(NATS_STATUS_CONNECTED, true);
       await this.#subscribeIncoming();
     } catch (err) {
-      this.#conn = undefined;
+      this.#conn = null;
       eventbus.emit(NATS_STATUS_CONNECTED, false);
       logger({ message: `Failed to connect: ${err.message}`, type: 'error' });
       console.error('err', err.message);
@@ -53,17 +53,28 @@ class NatsGateway {
   }
 
   async disconnect() {
-    if (this.#conn) {
-      logger({ message: 'Disconnecting from server...', type: 'warn' });
+    logger({ message: 'Disconnecting from server...', type: 'warn' });
+
+    try {
       await this.#conn?.drain();
       await this.#conn?.close();
-      this.#conn = undefined;
-      this.#subscription.unsubscribe();
-      this.#subscription = undefined;
-      this.#subscribers = {};
-      logger({ message: 'Disconnected...', type: 'success' });
+    } catch (error) {
+      console.log("nats disconnect error", { error })
+    } finally {
+       this.#conn = null;
     }
+
+    try {
+      this.#subscription.unsubscribe();
+    } catch (error) {
+      console.log("nats disconnect error", { error })
+    } finally {
+      this.#subscription = null;
+      this.#subscribers = {};
+    }
+
     eventbus.emit(NATS_STATUS_CONNECTED, false);
+    logger({ message: 'Disconnected...', type: 'success' });
   }
 
   async publish({ subject, payload, options }: NatsCommonRequest) {
@@ -116,7 +127,7 @@ class NatsGateway {
   }
 
   async unsubscribe({ subject }: Pick<NatsCommonRequest, 'subject'>) {
-    if(this.#subscribers[subject]){
+    if (this.#subscribers[subject]) {
       delete this.#subscribers[subject];
       logger({ message: `Unsubscribed subject ${subject}`, type: 'warn' });
     }
