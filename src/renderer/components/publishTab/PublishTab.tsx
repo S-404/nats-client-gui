@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react';
+import React, { FC, KeyboardEventHandler, useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
@@ -116,6 +116,31 @@ export const PublishTab: FC = observer(() => {
     );
   }
 
+  const onKeyDownPayloadHandler: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
+    const input = e.currentTarget;
+
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+
+      const newValue = input.value.substring(0, start) +
+        '  ' + input.value.substring(end);
+
+      input.value = newValue;
+      input.selectionStart = input.selectionEnd = end + 2;
+
+      setPayload(newValue)
+    }
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      console.log('wanna save?');
+      savePublishedSubject()
+    }
+
+    return false
+  };
+
   return (
     <TabContainer name={'Publish message'}>
       <div className="publish-tab-container">
@@ -138,6 +163,7 @@ export const PublishTab: FC = observer(() => {
               title={'Payload'}
               text={payload ?? ''}
               onChange={(e) => setPayload(e.target.value)}
+              onKeyDown={onKeyDownPayloadHandler}
             />
             <div className="payload__checker">
               <a>JSON.parse: {payloadChecker}</a>

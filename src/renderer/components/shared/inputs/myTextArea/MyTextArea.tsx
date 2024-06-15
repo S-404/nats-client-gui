@@ -1,15 +1,16 @@
-import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import './myTextArea.scss';
 
 
 interface IMyTextArea {
   text: string;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: KeyboardEventHandler<HTMLTextAreaElement>;
   title?: string;
   autoScrolling?: boolean;
 }
 
-const MyTextArea: FC<IMyTextArea> = ({ text, onChange, title, autoScrolling = false }) => {
+const MyTextArea: FC<IMyTextArea> = ({ text, onChange, title, autoScrolling = false, onKeyDown }) => {
   const ref = useRef(null);
   const [onBottom, setOnBottom] = useState<boolean>(true);
 
@@ -41,6 +42,7 @@ const MyTextArea: FC<IMyTextArea> = ({ text, onChange, title, autoScrolling = fa
         value={text}
         readOnly={!onChange}
         onChange={onChange}
+        onKeyDown={onKeyDown}
       />
     </div>
   );
