@@ -44,7 +44,7 @@ export const PublishTab: FC = observer(() => {
     const subjectsSet = new Set(stored);
     subjectsSet.add(subject);
     appActionDispatcher('storeSave', {
-      publishedSubjects: Array.from(subjectsSet)
+      publishedSubjects: Array.from(subjectsSet),
     });
   };
 
@@ -73,16 +73,20 @@ export const PublishTab: FC = observer(() => {
   };
 
   const onSelectPublishedSubjectHandler = (publishedSubject: string) => {
-    if(publishedSubject !== subject && subscribed){
-      unsubscribe()
+    if (publishedSubject !== subject && subscribed) {
+      unsubscribe();
     }
     PublishedSubjectsStore.setCurrentSubject(publishedSubject);
     close();
-  }
+  };
 
   useEffect(() => {
-    updateSubject('name', subject);
-    updateSubject('payload', payload);
+    if (subject?.length >= 0) {
+      updateSubject('name', subject);
+    }
+    if (payload?.length >= 0) {
+      updateSubject('payload', payload);
+    }
   }, [subject, payload]);
 
   useEffect(() => {

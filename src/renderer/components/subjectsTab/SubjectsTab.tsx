@@ -24,6 +24,7 @@ export const SubjectsTab: FC = observer(() => {
     const newSubject = NatsClientStore.createSubject({
       method: 'request',
       name: '',
+      hasChanges: true,
     });
     selectSubject(newSubject);
   };
@@ -35,6 +36,7 @@ export const SubjectsTab: FC = observer(() => {
 
   const saveToStore = (subject: SubjectItem) => {
     SavedSubjectsStore.addSavedSubject(subject);
+    NatsClientStore.saveSubject(subject.id)
     appActionDispatcher('storeSave', {
       [`subjects.${subject.id}`]: subject,
     });
@@ -93,6 +95,7 @@ export const SubjectsTab: FC = observer(() => {
                   <IconButton
                     onClick={() => saveToStore({ ...item })}
                     iconType={'save'}
+                    iconModifiers={item.hasChanges && ['green']}
                     title={'Save subject and payload'}
 
                   />

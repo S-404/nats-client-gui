@@ -21,6 +21,7 @@ const Subject: FC<ISubject> = ({
       <div className="subject-item__header">
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
+          {subject?.hasChanges && ' * '}
         </div>
       </div>
 

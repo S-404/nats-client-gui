@@ -7,6 +7,8 @@ export type SubjectItem = {
   method: 'request' | 'publish' | 'subscribe';
   payload?: string;
   isSubscribed?: boolean;
+  hasChanges?: boolean;
+  isSaved?: boolean;
 }
 
 export type ClientMessage = {
@@ -55,8 +57,23 @@ class NatsClientStore {
     const targetIndex = this.subjects.findIndex(item => item.id === id);
 
     if (targetIndex !== -1) {
-      this.subjects[targetIndex] = { ...this.subjects[targetIndex], ...newData };
+      const currentSubjectData = this.subjects[targetIndex];
+      this.subjects[targetIndex] = {
+        ...currentSubjectData,
+        ...newData,
+        hasChanges: this.#hasChanges(currentSubjectData, newData),
+      };
     }
+  }
+
+  #hasChanges(currentSubjectData: SubjectItem, newSubjectData: Partial<SubjectItem>): boolean {
+    return !currentSubjectData.isSaved
+      || (newSubjectData.payload
+        && currentSubjectData.payload !== newSubjectData.payload)
+      || (newSubjectData.name
+        && currentSubjectData.name !== newSubjectData.name)
+      || (newSubjectData.method
+        && currentSubjectData.method !== newSubjectData.method);
   }
 
   removeSubject(id: string) {
@@ -66,7 +83,7 @@ class NatsClientStore {
     }
     this.clearSubjectMessages(id);
     this.removeSubscriber(id);
-    this.selectedSubject = null
+    this.selectedSubject = null;
   }
 
   setSelectedSubject(id: string | null) {
@@ -77,7 +94,9 @@ class NatsClientStore {
   createSubject(subject: Omit<SubjectItem, 'id'>) {
     const newSubject = {
       id: uuid(),
-      ...subject
+      hasChanges: true,
+      isSaved: false,
+      ...subject,
     };
     this.subjects.push(newSubject);
     return newSubject;
@@ -86,7 +105,21 @@ class NatsClientStore {
   addSubjectIfNotExists(subject: SubjectItem) {
     const target = this.subjects.find(item => item.id === subject.id);
     if (!target) {
+      subject.hasChanges = false;
+      subject.isSaved = true;
       this.subjects.push(subject);
+    }
+  }
+
+  saveSubject(id: string): void {
+    const targetIndex = this.subjects.findIndex(item => item.id === id);
+
+    if (targetIndex !== -1) {
+      this.subjects[targetIndex] = {
+        ...this.subjects[targetIndex],
+        hasChanges: false,
+        isSaved: true,
+      };
     }
   }
 
