@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import { SubjectItem } from '#renderer/store/NatsClientStore.ts';
+import { SubjectItem } from '#renderer/store/SubjectsStore.ts';
+
 import './subject.scss';
 
 
@@ -21,7 +22,7 @@ const Subject: FC<ISubject> = ({
       <div className="subject-item__header">
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
-          {subject?.hasChanges && ' * '}
+          {(!subject?.isSaved || subject?.hasChanges) && ' * '}
         </div>
       </div>
 

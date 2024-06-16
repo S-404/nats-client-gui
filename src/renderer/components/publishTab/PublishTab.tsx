@@ -1,23 +1,26 @@
-import React, { FC, KeyboardEventHandler, useEffect, useMemo, useState } from 'react';
+import React, { FC, KeyboardEventHandler, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
+import SavedSubjectsModal from '#renderer/components/shared/savedSubjectsModal/SavedSubjectsModal.tsx';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import { appActionDispatcher } from '#renderer/bridge';
-import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts';
-import PublishedSubjectsStore from '#renderer/store/PublishedSubjectsStore.ts';
+import NatsClientStore from '#renderer/store/NatsClientStore.ts';
+import SubjectsStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import { useModal } from '#renderer/hooks/useModal.ts';
-import PublishedSubjectsModal from '#renderer/components/publishTab/publishedSubjects/PublishedSubjectsModal.tsx';
+
 
 import './publishTab.scss';
 
 
 export const PublishTab: FC = observer(() => {
-  const { subjects, isConnected, subscribers, selectedSubject } = NatsClientStore;
-  const { currentSubject: subject } = PublishedSubjectsStore;
-  const [payload, setPayload] = useState<string>('');
+  const { isConnected, subscribers } = NatsClientStore;
+  const { subjects, selectedSubject } = SubjectsStore;
+  const subject = selectedSubject?.name;
+  const payload = selectedSubject?.payload;
+
   const { isOpened, open, close } = useModal();
 
   const subscribed = useMemo(() => {
@@ -30,40 +33,29 @@ export const PublishTab: FC = observer(() => {
     AttrType extends Subj[Attr]
   >
   (attr: Attr, newValue: AttrType) => {
-    NatsClientStore.updateSubject(selectedSubject?.id, { [attr]: newValue });
+    SubjectsStore.updateSubject(selectedSubject?.id, { [attr]: newValue });
   };
 
   const setSubject = (value: string) => {
-    PublishedSubjectsStore.setCurrentSubject(value);
+    updateSubject('name', value);
   };
 
-  const savePublishedSubject = async () => {
-    PublishedSubjectsStore.addPublishedSubject(subject);
-
-    const stored: string[] = (await appActionDispatcher('storeGet', 'publishedSubjects')) ?? [];
-    const subjectsSet = new Set(stored);
-    subjectsSet.add(subject);
-    appActionDispatcher('storeSave', {
-      publishedSubjects: Array.from(subjectsSet),
-    });
+  const setPayload = (value: string) => {
+    updateSubject('payload', value);
   };
 
   const request = () => {
     updateSubject('method', 'request');
-    savePublishedSubject();
     appActionDispatcher('natsRequest', { id: selectedSubject?.id, subject, payload });
   };
 
   const publish = () => {
     updateSubject('method', 'publish');
-    savePublishedSubject();
     appActionDispatcher('natsPublish', { id: selectedSubject?.id, subject, payload });
   };
 
   const subscribe = () => {
-    updateSubject('method', 'subscribe');
     NatsClientStore.addSubscriber(selectedSubject?.id);
-    savePublishedSubject();
     appActionDispatcher('natsSubscribe', { id: selectedSubject?.id, subject });
   };
 
@@ -72,29 +64,13 @@ export const PublishTab: FC = observer(() => {
     appActionDispatcher('natsUnsubscribe', { id: selectedSubject?.id, subject });
   };
 
-  const onSelectPublishedSubjectHandler = (publishedSubject: string) => {
-    if (publishedSubject !== subject && subscribed) {
+  const onSelectSavedSubjectHandler = async (subjectItem: SubjectItem) => {
+    if (subscribed && subjectItem.name !== subject) {
       unsubscribe();
     }
-    PublishedSubjectsStore.setCurrentSubject(publishedSubject);
+    updateSubject('name', subjectItem.name);
     close();
   };
-
-  useEffect(() => {
-    if (subject?.length >= 0) {
-      updateSubject('name', subject);
-    }
-    if (payload?.length >= 0) {
-      updateSubject('payload', payload);
-    }
-  }, [subject, payload]);
-
-  useEffect(() => {
-    if (selectedSubject) {
-      setSubject(selectedSubject.name);
-      setPayload(selectedSubject.payload);
-    }
-  }, [selectedSubject?.id]);
 
   const payloadChecker = useMemo(() => {
     let result = 'ok';
@@ -106,15 +82,14 @@ export const PublishTab: FC = observer(() => {
     return result;
   }, [payload]);
 
-  if (!selectedSubject?.id) {
-    return (
-      <TabContainer name={'Publish message'}>
-        <div className="publish-tab-container_empty">
-          <p>{subjects.length ? 'Select subject' : 'Add subject'}</p>
-        </div>
-      </TabContainer>
-    );
-  }
+  const onKeyDownSubjectHandler: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      SubjectsStore.saveSubject(selectedSubject.id);
+    }
+
+    return false;
+  };
 
   const onKeyDownPayloadHandler: KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
     const input = e.currentTarget;
@@ -124,22 +99,30 @@ export const PublishTab: FC = observer(() => {
       const start = input.selectionStart;
       const end = input.selectionEnd;
 
-      const newValue = input.value.substring(0, start) +
-        '  ' + input.value.substring(end);
+      const newValue = input.value.substring(0, start) + '  ' + input.value.substring(end);
 
       input.value = newValue;
       input.selectionStart = input.selectionEnd = end + 2;
 
-      setPayload(newValue)
+      setPayload(newValue);
     }
     if (e.ctrlKey && e.key === 's') {
       e.preventDefault();
-      console.log('wanna save?');
-      savePublishedSubject()
+      SubjectsStore.saveSubject(selectedSubject.id);
     }
 
-    return false
+    return false;
   };
+
+  if (!selectedSubject) {
+    return (
+      <TabContainer name={'Publish message'}>
+        <div className="publish-tab-container_empty">
+          <p>{subjects.length ? 'Select subject' : 'Add subject'}</p>
+        </div>
+      </TabContainer>
+    );
+  }
 
   return (
     <TabContainer name={'Publish message'}>
@@ -151,6 +134,7 @@ export const PublishTab: FC = observer(() => {
               title={'Subject'}
               onChange={(e) => setSubject(e.target.value)}
               clearButton={false}
+              onKeyDown={onKeyDownSubjectHandler}
             />
             <IconButton
               onClick={open}
@@ -192,10 +176,10 @@ export const PublishTab: FC = observer(() => {
           />
         </div>
       </div>
-      <PublishedSubjectsModal
+      <SavedSubjectsModal
         isModalOpened={isOpened}
         closeModal={close}
-        onSelect={onSelectPublishedSubjectHandler}
+        onSelect={onSelectSavedSubjectHandler}
       />
     </TabContainer>
   );

@@ -1,6 +1,7 @@
 import React, { FC, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
+import SubjectsStore from '#renderer/store/SubjectsStore.ts';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MySyntaxHighlighter from '#renderer/components/shared/syntaxHighlighter/MySyntaxHighlighter.tsx';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
@@ -9,7 +10,8 @@ import './messageTab.scss';
 
 
 export const MessagesTab: FC = observer(() => {
-  const { subjects, selectedSubject, messages: allMessages } = NatsClientStore;
+  const { subjects, selectedSubject } = SubjectsStore;
+  const { messages: allMessages } = NatsClientStore;
   const [isShownAll, setIsShownAll] = useState<boolean>(false);
 
   const messages = useMemo(() => {

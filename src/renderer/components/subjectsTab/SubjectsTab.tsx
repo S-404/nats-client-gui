@@ -1,49 +1,50 @@
 import React, { FC } from 'react';
 import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
-import NatsClientStore, { SubjectItem } from '#renderer/store/NatsClientStore.ts';
-import SavedSubjectsModal from '#renderer/components/subjectsTab/savedSubjects/SavedSubjectsModal.tsx';
-import SavedSubjectsStore from '#renderer/store/SavedSubjectsStore.ts';
+import NatsClientStore from '#renderer/store/NatsClientStore.ts';
+import SubjectsStore from '#renderer/store/SubjectsStore.ts';
+import SubjectStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import Subject from './subject/Subject.tsx';
-import { appActionDispatcher } from 'src/renderer/bridge';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
+import SavedSubjectsModal from '#renderer/components/shared/savedSubjectsModal/SavedSubjectsModal.tsx';
 
 import './subjectsTab.scss';
 
 
 export const SubjectsTab: FC = observer(() => {
-  const { subjects, selectedSubject } = NatsClientStore;
+  const { subjects, selectedSubject } = SubjectsStore;
   const { isOpened, open, close } = useModal();
 
-  const selectSubject = (subject: SubjectItem) => {
-    NatsClientStore.setSelectedSubject(subject.id);
+  const selectSubject = (id: string) => {
+    SubjectsStore.setSelectedSubject(id);
   };
 
   const addSubject = () => {
-    const newSubject = NatsClientStore.createSubject({
-      method: 'request',
-      name: '',
-      hasChanges: true,
-    });
-    selectSubject(newSubject);
+    const newSubject = SubjectsStore.addNewSubject();
+    selectSubject(newSubject.id);
   };
 
-  const remove = ({ id, subject }: { id: string, subject: string }) => {
-    NatsClientStore.removeSubject(id);
-    appActionDispatcher('natsUnsubscribe', { subject });
+  const removeFromList = (id: string) => {
+    SubjectsStore.removeSubjectFromList(id);
+  };
+
+  const removeFromStore = (id: string) => {
+    SubjectsStore.removeSubjectFromStore(id);
   };
 
   const saveToStore = (subject: SubjectItem) => {
-    SavedSubjectsStore.addSavedSubject(subject);
-    NatsClientStore.saveSubject(subject.id)
-    appActionDispatcher('storeSave', {
-      [`subjects.${subject.id}`]: subject,
-    });
+    SubjectStore.saveSubject(subject.id);
   };
 
   const clearSubjects = () => {
-    NatsClientStore.clearState(true);
+    NatsClientStore.clearState();
+    SubjectsStore.setSubjects([]);
+  };
+
+  const addSavedSubject = async (item: SubjectItem) => {
+    await SubjectsStore.addSavedSubject(item);
+    close();
   };
 
   return (
@@ -85,22 +86,23 @@ export const SubjectsTab: FC = observer(() => {
             >
               <div className={'subject-list-item__subject'}>
                 <Subject
-                  onClick={() => selectSubject(item)}
+                  onClick={() => selectSubject(item.id)}
                   isSelected={selectedSubject?.id === item.id}
                   {...item}
                 />
               </div>
               <div className="subject-list-item__buttons">
                 <div className="buttons-items">
+                  {item.name && (
+                    <IconButton
+                      onClick={() => saveToStore({ ...item })}
+                      iconType={'save'}
+                      iconModifiers={item.hasChanges && ['green']}
+                      title={'Save subject and payload'}
+                    />
+                  )}
                   <IconButton
-                    onClick={() => saveToStore({ ...item })}
-                    iconType={'save'}
-                    iconModifiers={item.hasChanges && ['green']}
-                    title={'Save subject and payload'}
-
-                  />
-                  <IconButton
-                    onClick={() => remove({ id: item.id, subject: item.name })}
+                    onClick={() => removeFromList(item.id)}
                     iconType={'clear'}
                     title={'Remove from list'}
                   />
@@ -114,6 +116,8 @@ export const SubjectsTab: FC = observer(() => {
         <SavedSubjectsModal
           closeModal={close}
           isModalOpened={isOpened}
+          showOnlyNames={false}
+          onSelect={addSavedSubject}
         />
 
       </div>

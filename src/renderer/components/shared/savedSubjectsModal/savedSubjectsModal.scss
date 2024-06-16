@@ -1,6 +1,6 @@
-@import "../../shared/colors";
+@import "../colors";
 
-.saved-published-subjects {
+.saved-subjects-list {
   width: 100%;
   height: 100%;
   padding: 0 3em;
@@ -11,15 +11,12 @@
     padding-bottom: 1em;
   }
 
-  &__published-subjects {
+  &__saved-subjects {
     width: 100%;
     overflow-y: scroll;
 
-    .published-subject__item {
+    .saved-subject__item {
       position: relative;
-      border: 1px solid $inputBorderFgColorInactive;
-      border-radius: 4px;
-      padding: .5em;
       cursor: pointer;
       user-select: none;
       margin-bottom: .5em;
@@ -34,7 +31,7 @@
         border-color: $inputBorderFgColorHover;
       }
 
-      .published-subject__remove-button {
+      .saved-subject__remove-button {
         display: none;
         position: absolute;
         top: 30%;
@@ -43,10 +40,16 @@
       }
 
       &:hover {
-        .published-subject__remove-button {
+        .saved-subject__remove-button {
           display: block;
         }
       }
+    }
+
+    .saved-subject__item_small {
+      border: 1px solid $inputBorderFgColorInactive;
+      border-radius: 4px;
+      padding: .5em 1em;
     }
   }
 }
