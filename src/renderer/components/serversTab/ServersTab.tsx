@@ -9,6 +9,7 @@ import ServerConnectionsStore from '#renderer/store/ServerConnectionsStore.ts';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import SavedServersModal from '#renderer/components/serversTab/savedServers/SavedServersModal.tsx';
 import SaveAsModal from '#renderer/components/serversTab/saveAs/SaveAsModal.tsx';
+import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 
 import './serversTab.scss';
 
@@ -67,6 +68,17 @@ export const ServersTab: FC = observer(() => {
   return (
     <TabContainer name={'Server connection'}>
       <div className="servers-tab-container">
+        <div className="icon-buttons">
+          {!isConnected && (
+            <>
+              <IconButton
+                onClick={openModalSavedConnections}
+                iconType={'search'}
+                bordered={true}
+              />
+            </>
+          )}
+        </div>
         <div className="inputs">
           <div className="inputs__input inputs__input_host">
             <MyInput
@@ -95,6 +107,7 @@ export const ServersTab: FC = observer(() => {
           </div>
         </div>
 
+
         <div className="buttons">
           <>
             {isConnected ?
@@ -116,11 +129,6 @@ export const ServersTab: FC = observer(() => {
                   onClick={openModalSaveAs}
                   color={isSaved ? 'white' : 'green'}
                   disabled={!currentConnection.host}
-                />
-                <MyButton
-                  text={'Load'}
-                  color={'white'}
-                  onClick={openModalSavedConnections}
                 />
               </>
             }

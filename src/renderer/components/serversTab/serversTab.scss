@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: relative;
 
   .inputs {
     flex-basis: 60%;
@@ -15,7 +16,7 @@
       width: 100%;
 
       &_host {
-        flex:4;
+        flex: 4;
       }
 
       &_port {
@@ -26,6 +27,14 @@
         flex: 1;
       }
     }
+  }
+
+  .icon-buttons {
+    position: absolute;
+    top: -1.8em;
+    z-index: 1;
+    left: 9.5em;
+    scale: 1.3;
   }
 
   .buttons {
