@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useRef } from 'react';
+import React, { ChangeEvent, FC, KeyboardEventHandler, useRef } from 'react';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import './myInput.scss';
 
@@ -9,6 +9,7 @@ interface IMyInput {
   disabled?: boolean;
   isSecret?: boolean;
   clearButton?: boolean;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
 }
 
 const MyInput: FC<IMyInput> = ({
@@ -17,7 +18,8 @@ const MyInput: FC<IMyInput> = ({
                                  title,
                                  disabled,
                                  isSecret,
-                                 clearButton = true
+                                 clearButton = true,
+                                 onKeyDown,
                                }) => {
   const ref = useRef(null);
 
@@ -42,6 +44,7 @@ const MyInput: FC<IMyInput> = ({
         onChange={onChange}
         disabled={disabled}
         type={isSecret ? 'password' : text}
+        onKeyDown={onKeyDown}
       />
       {clearButton && !disabled && (
         <div className={`clear-button${clearButton ? '' : '_hidden'}`}>
