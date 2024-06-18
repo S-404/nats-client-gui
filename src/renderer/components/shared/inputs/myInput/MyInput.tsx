@@ -10,6 +10,7 @@ interface IMyInput {
   isSecret?: boolean;
   clearButton?: boolean;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  maxLength?: number;
 }
 
 const MyInput: FC<IMyInput> = ({
@@ -20,6 +21,7 @@ const MyInput: FC<IMyInput> = ({
                                  isSecret,
                                  clearButton = true,
                                  onKeyDown,
+                                 maxLength
                                }) => {
   const ref = useRef(null);
 
@@ -45,6 +47,7 @@ const MyInput: FC<IMyInput> = ({
         disabled={disabled}
         type={isSecret ? 'password' : text}
         onKeyDown={onKeyDown}
+        maxLength={maxLength}
       />
       {clearButton && !disabled && (
         <div className={`clear-button${clearButton ? '' : '_hidden'}`}>

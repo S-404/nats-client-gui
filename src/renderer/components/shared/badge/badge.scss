@@ -1,0 +1,10 @@
+@import "../colors";
+
+.badge {
+  background-color: $borderFgColor;
+  color: gray;
+  border-radius: 1em;
+  padding: .1em .5em;
+  display: inline-block;
+  cursor: pointer;
+}
