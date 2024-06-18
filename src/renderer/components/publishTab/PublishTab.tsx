@@ -10,18 +10,36 @@ import { appActionDispatcher } from '#renderer/bridge';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
 import SubjectsStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import { useModal } from '#renderer/hooks/useModal.ts';
-
+import SubjectGroupsModal from '#renderer/components/subjectGroups/SubjectGroupsModal.tsx';
+import SubjectGroupBadge from '#renderer/components/subjectGroups/SubjectGroupBadge.tsx';
 
 import './publishTab.scss';
+import SubjectGroupsStore from '#renderer/store/SubjectGroupsStore.ts';
 
 
 export const PublishTab: FC = observer(() => {
   const { isConnected, subscribers } = NatsClientStore;
   const { subjects, selectedSubject } = SubjectsStore;
+  const { groups } = SubjectGroupsStore;
   const subject = selectedSubject?.name;
   const payload = selectedSubject?.payload;
+  const subjectGroup = useMemo(() => {
+    if (selectedSubject && groups) {
+      return groups.find(group => group.id === selectedSubject.groupId);
+    }
+  }, [selectedSubject?.groupId, groups]);
 
-  const { isOpened, open, close } = useModal();
+  const {
+    isOpened: isOpenedSubjectSearch,
+    open: openSubjectSearch,
+    close: closeSubjectSearch,
+  } = useModal();
+
+  const {
+    isOpened: isOpenedSubjectGroup,
+    open: openSubjectGroup,
+    close: closeSubjectGroup,
+  } = useModal();
 
   const subscribed = useMemo(() => {
     return subscribers.includes(selectedSubject?.id);
@@ -69,7 +87,12 @@ export const PublishTab: FC = observer(() => {
       unsubscribe();
     }
     updateSubject('name', subjectItem.name);
-    close();
+    closeSubjectSearch();
+  };
+
+  const onSelectSubjectGroupHandler = async (groupId: string) => {
+    updateSubject('groupId', groupId);
+    closeSubjectGroup()
   };
 
   const payloadChecker = useMemo(() => {
@@ -127,6 +150,15 @@ export const PublishTab: FC = observer(() => {
   return (
     <TabContainer name={'Publish message'}>
       <div className="publish-tab-container">
+        <div className={'icon-buttons'}>
+          <>
+            <div onClick={openSubjectGroup}>
+              <SubjectGroupBadge
+                group={subjectGroup}
+              />
+            </div>
+          </>
+        </div>
         <div className="inputs">
           <div className="subject">
             <MyInput
@@ -137,7 +169,7 @@ export const PublishTab: FC = observer(() => {
               onKeyDown={onKeyDownSubjectHandler}
             />
             <IconButton
-              onClick={open}
+              onClick={openSubjectSearch}
               iconType={'search'}
             />
           </div>
@@ -177,9 +209,14 @@ export const PublishTab: FC = observer(() => {
         </div>
       </div>
       <SavedSubjectsModal
-        isModalOpened={isOpened}
-        closeModal={close}
+        isModalOpened={isOpenedSubjectSearch}
+        closeModal={closeSubjectSearch}
         onSelect={onSelectSavedSubjectHandler}
+      />
+      <SubjectGroupsModal
+        isModalOpened={isOpenedSubjectGroup}
+        closeModal={closeSubjectGroup}
+        onSelect={onSelectSubjectGroupHandler}
       />
     </TabContainer>
   );

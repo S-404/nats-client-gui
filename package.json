@@ -16,6 +16,7 @@
     "mobx-react": "9.1.0",
     "nats": "^2.18.0",
     "react": "^18.2.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-reflex": "4.2.4",
     "react-syntax-highlighter": "^15.5.0",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
+    "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18.2.7",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.6.0",

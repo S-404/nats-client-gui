@@ -8,6 +8,7 @@ import Subject from './subject/Subject.tsx';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import SavedSubjectsModal from '#renderer/components/shared/savedSubjectsModal/SavedSubjectsModal.tsx';
+import SubjectGroupsStore, { SubjectGroup } from '#renderer/store/SubjectGroupsStore.ts';
 
 import './subjectsTab.scss';
 
@@ -45,6 +46,12 @@ export const SubjectsTab: FC = observer(() => {
   const addSavedSubject = async (item: SubjectItem) => {
     await SubjectsStore.addSavedSubject(item);
     close();
+  };
+
+  const findSubjectGroup = (groupId: string | undefined): SubjectGroup | undefined => {
+    if (groupId) {
+      return SubjectGroupsStore.groups.find(item => item.id === groupId);
+    }
   };
 
   return (
@@ -88,6 +95,7 @@ export const SubjectsTab: FC = observer(() => {
                 <Subject
                   onClick={() => selectSubject(item.id)}
                   isSelected={selectedSubject?.id === item.id}
+                  group={findSubjectGroup(item.groupId)}
                   {...item}
                 />
               </div>

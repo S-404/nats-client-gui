@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { v4 as uuid } from 'uuid';
 import { appActionDispatcher } from '#renderer/bridge';
+import { cloneObject } from '#renderer/utils/cloneObject.ts';
 
 export type SubjectItem = {
   id: string;
@@ -9,6 +10,7 @@ export type SubjectItem = {
   payload?: string;
   hasChanges?: boolean;
   isSaved?: boolean;
+  groupId?: string;
 }
 
 class SubjectsStore {
@@ -98,7 +100,7 @@ class SubjectsStore {
       subject.isSaved = true;
 
       appActionDispatcher('storeSave', {
-        [`subjects.${subject.id}`]: { ...subject },
+        [`subjects.${subject.id}`]: cloneObject(subject),
       });
     }
   }

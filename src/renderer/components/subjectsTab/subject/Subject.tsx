@@ -1,5 +1,7 @@
 import React, { FC } from 'react';
 import { SubjectItem } from '#renderer/store/SubjectsStore.ts';
+import SubjectGroupBadge from '#renderer/components/subjectGroups/SubjectGroupBadge.tsx';
+import { SubjectGroup } from '#renderer/store/SubjectGroupsStore.ts';
 
 import './subject.scss';
 
@@ -7,11 +9,13 @@ import './subject.scss';
 interface ISubject extends SubjectItem {
   isSelected?: boolean;
   onClick?: () => void;
+  group?: SubjectGroup,
 }
 
 const Subject: FC<ISubject> = ({
                                  isSelected,
                                  onClick,
+                                 group,
                                  ...subject
                                }) => {
   return (
@@ -23,6 +27,7 @@ const Subject: FC<ISubject> = ({
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
           {(!subject?.isSaved || subject?.hasChanges) && ' * '}
+          {group && (<SubjectGroupBadge group={group}/>)}
         </div>
       </div>
 

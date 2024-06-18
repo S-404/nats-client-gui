@@ -5,6 +5,14 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+  position: relative;
+
+  .icon-buttons {
+    position: absolute;
+    top: -1.9em;
+    left: 9em;
+    z-index: 1;
+  }
 
   .inputs {
     height: 100%;
