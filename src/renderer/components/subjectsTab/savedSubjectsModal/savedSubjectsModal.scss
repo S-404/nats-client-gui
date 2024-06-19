@@ -1,0 +1,84 @@
+@import "../../shared/colors";
+
+.saved-subjects {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+  padding: 0 1em;
+
+  &__header {
+    margin-bottom: 1em;
+
+    .my-input {
+      margin-top: 1em;
+    }
+  }
+
+
+  &__subject-groups {
+    height: 100%;
+
+    .subject-groups__subject-groups-list {
+      height: 80%;
+      overflow-y: scroll;
+      padding-right: .3em;
+
+      .subject-groups-list-item {
+        display: flex;
+        align-items: center;
+
+        border: 1px solid $inputBorderFgColorInactive;
+        border-radius: 4px;
+        padding: .5em;
+        margin-bottom: .5em;
+        cursor: pointer;
+        user-select: none;
+        overflow: hidden;
+
+        transition: all .5s ease;
+
+        &:hover {
+          border-color: $inputBorderFgColorHover;
+          transition: all .5s ease;
+        }
+
+        &__counter {
+          color: $hintColor;
+          margin-left: 1em;
+        }
+      }
+    }
+  }
+
+  &__subjects {
+    height: 100%;
+
+    .subjects__subject-list {
+      height: 80%;
+      overflow-y: scroll;
+      padding-right: .3em;
+
+      .subject-list__subject-list-item {
+        position: relative;
+        margin-bottom: .5em;
+
+        .subject-list-item__remove-button {
+          display: none;
+          position: absolute;
+          top: 55%;
+          transform: translate(-50%, -50%);
+          right: .5em;
+          scale: 1.3;
+        }
+
+        &:hover {
+          .subject-list-item__remove-button {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

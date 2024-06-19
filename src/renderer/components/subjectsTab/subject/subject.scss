@@ -59,6 +59,10 @@
     }
   }
 
+  .subject-item__group {
+    padding: .3em 0 0;
+  }
+
   .subject-item__body {
     padding: .5em 0;
 
@@ -88,7 +92,7 @@
     //height: 1px;
     transition: all .3s ease;
 
-    button{
+    button {
       margin-left: .5em;
     }
   }

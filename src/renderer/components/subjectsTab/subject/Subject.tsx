@@ -27,10 +27,11 @@ const Subject: FC<ISubject> = ({
         <div className={`subject-item__method subject-item__method_${subject?.method}`}>
           {subject?.method ? subject.method.toUpperCase() : ''}
           {(!subject?.isSaved || subject?.hasChanges) && ' * '}
-          {group && (<SubjectGroupBadge group={group}/>)}
         </div>
       </div>
-
+      <div className={'subject-item__group'}>
+        {group && (<SubjectGroupBadge group={group}/>)}
+      </div>
       <div className="subject-item__body">
         <div className="subject-item__name">
           {subject.name}

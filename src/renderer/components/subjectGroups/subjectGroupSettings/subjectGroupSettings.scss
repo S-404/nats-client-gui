@@ -1,0 +1,48 @@
+@import "../../shared/colors";
+
+.subject-group-settings {
+  cursor: default;
+
+  &__settings-panel {
+    margin-top: 1em;
+    padding: .5em;
+    border: 1px solid $hintColor;
+    border-radius: 4px;
+
+    .preview {
+      display: flex;
+      align-items: center;
+      color: $hintColor;
+      margin-bottom: 1em;
+
+      .badge {
+        margin-left: .2em;
+      }
+    }
+
+    .settings-panel__attribute {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .my-input {
+        width: 240px;
+      }
+    }
+
+
+    .settings-panel__bottom {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-top: 2em;
+      justify-content: space-between;
+
+      .buttons {
+        .my-button {
+          margin-left: .5em;
+        }
+      }
+    }
+  }
+}

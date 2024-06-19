@@ -4,7 +4,6 @@ import SubjectsStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import { observer } from 'mobx-react';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import MyInput from '#renderer/components/shared/inputs/myInput/MyInput.tsx';
-import Subject from '#renderer/components/subjectsTab/subject/Subject.tsx';
 
 import './savedSubjectsModal.scss';
 
@@ -13,7 +12,6 @@ interface ISavedSubjectsModalProps {
   isModalOpened: boolean;
   closeModal: () => void;
   onSelect?: (subjectId: SubjectItem) => void;
-  showOnlyNames?: boolean;
 }
 
 
@@ -21,7 +19,6 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({
                                                                      isModalOpened,
                                                                      closeModal,
                                                                      onSelect,
-                                                                     showOnlyNames = true,
                                                                    }) => {
   const { listSavedSubjects, subjects } = SubjectsStore;
   const [savedSubjects, setSavedSubjects] = useState<SubjectItem[]>([]);
@@ -56,7 +53,7 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({
     <Modal
       isModalOpen={isModalOpened}
       onClose={closeModal}
-      title={'Published subjects history'}
+      title={'Saved subjects'}
     >
 
       <div className={'saved-subjects-list'}>
@@ -70,17 +67,13 @@ const SavedSubjectsModal: FC<ISavedSubjectsModalProps> = observer(({
         <div className={'saved-subjects-list__saved-subjects'}>
           {filteredSavedSubjects.map(item => (
             <div
-              key={`item_${item.name}`}
+              key={`saved-subject_${item.id}`}
               onClick={() => onSelect && onSelect(item)}
               className={'saved-subject__item'}
             >
-              {showOnlyNames ?
-                <div className={'saved-subject__item_small'}>
-                  <p>{item.name}</p>
-                </div>
-                :
-                <Subject{...item}/>
-              }
+              <div className={'saved-subject__item_small'}>
+                <p>{item.name}</p>
+              </div>
               <div className={'saved-subject__remove-button'}>
                 <IconButton
                   onClick={() => removeFromStore(item)}
