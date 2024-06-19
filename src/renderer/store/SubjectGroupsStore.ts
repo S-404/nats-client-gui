@@ -15,6 +15,7 @@ export type SubjectGroup = {
 }
 
 class SubjectGroupsStore {
+  selectedSubjectGroupId: string | null = null;
   groups: SubjectGroup[] = [];
   defaultStyle: SubjectGroupStyle = {
     color: 'black',
@@ -24,6 +25,10 @@ class SubjectGroupsStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  setSelectedSubjectGroupId = (id: string | null) => {
+    this.selectedSubjectGroupId = id;
+  };
 
   async loadFromStore() {
     this.setGroups(await this.#listFromStore());
@@ -55,7 +60,7 @@ class SubjectGroupsStore {
 
     this.groups.push(newGroup);
 
-    await this.save(newGroup.id)
+    await this.save(newGroup.id);
 
     return newGroup;
   }
@@ -75,9 +80,9 @@ class SubjectGroupsStore {
     await appActionDispatcher('storeDelete', `${SUBJECT_GROUPS}.${id}`);
   }
 
-  async save(id: string){
+  async save(id: string) {
     const group = this.groups.find((item) => item.id === id);
-    if(group){
+    if (group) {
       await appActionDispatcher('storeSave', {
         [`${SUBJECT_GROUPS}.${group.id}`]: cloneObject(group),
       });

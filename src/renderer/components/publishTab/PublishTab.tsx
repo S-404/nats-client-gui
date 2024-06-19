@@ -4,7 +4,7 @@ import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import MyTextArea from '../shared/inputs/myTextArea/MyTextArea.tsx';
 import MyInput from '../shared/inputs/myInput/MyInput.tsx';
 import MyButton from '../shared/buttons/myButton/MyButton.tsx';
-import SavedSubjectsModal from '#renderer/components/shared/savedSubjectsModal/SavedSubjectsModal.tsx';
+import SavedSubjectsModal from '#renderer/components/publishTab/savedSubjectsModal/SavedSubjectsModal.tsx';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
 import { appActionDispatcher } from '#renderer/bridge';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
@@ -12,9 +12,9 @@ import SubjectsStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import SubjectGroupsModal from '#renderer/components/subjectGroups/SubjectGroupsModal.tsx';
 import SubjectGroupBadge from '#renderer/components/subjectGroups/SubjectGroupBadge.tsx';
+import SubjectGroupsStore from '#renderer/store/SubjectGroupsStore.ts';
 
 import './publishTab.scss';
-import SubjectGroupsStore from '#renderer/store/SubjectGroupsStore.ts';
 
 
 export const PublishTab: FC = observer(() => {
@@ -92,7 +92,7 @@ export const PublishTab: FC = observer(() => {
 
   const onSelectSubjectGroupHandler = async (groupId: string) => {
     updateSubject('groupId', groupId);
-    closeSubjectGroup()
+    closeSubjectGroup();
   };
 
   const payloadChecker = useMemo(() => {

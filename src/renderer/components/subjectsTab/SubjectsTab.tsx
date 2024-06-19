@@ -7,7 +7,7 @@ import SubjectStore, { SubjectItem } from '#renderer/store/SubjectsStore.ts';
 import Subject from './subject/Subject.tsx';
 import { useModal } from '#renderer/hooks/useModal.ts';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
-import SavedSubjectsModal from '#renderer/components/shared/savedSubjectsModal/SavedSubjectsModal.tsx';
+import SavedSubjectsModal from './savedSubjectsModal/SavedSubjectsModal.tsx';
 import SubjectGroupsStore, { SubjectGroup } from '#renderer/store/SubjectGroupsStore.ts';
 
 import './subjectsTab.scss';
@@ -39,12 +39,16 @@ export const SubjectsTab: FC = observer(() => {
   };
 
   const clearSubjects = () => {
+    for (const subject of subjects) {
+      SubjectsStore.removeSubjectFromList(subject.id);
+    }
     NatsClientStore.clearState();
-    SubjectsStore.setSubjects([]);
   };
 
-  const addSavedSubject = async (item: SubjectItem) => {
-    await SubjectsStore.addSavedSubject(item);
+  const addSavedSubject = async (items: SubjectItem[]) => {
+    for (const item of items) {
+      await SubjectsStore.addSavedSubject(item);
+    }
     close();
   };
 
@@ -83,7 +87,7 @@ export const SubjectsTab: FC = observer(() => {
         <div className={'subjects-tab-container__subject-list'}>
           {subjects.map((item) => (
             <div
-              key={item.id}
+              key={`subject_${item.id}`}
               className={
                 `subject-list-item ${
                   selectedSubject?.id === item.id ?
@@ -124,7 +128,6 @@ export const SubjectsTab: FC = observer(() => {
         <SavedSubjectsModal
           closeModal={close}
           isModalOpened={isOpened}
-          showOnlyNames={false}
           onSelect={addSavedSubject}
         />
 

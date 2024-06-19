@@ -70,6 +70,7 @@ class SubjectsStore {
   async removeSubjectFromStore(id: string) {
     this.subjects = this.subjects.filter(item => item.id !== id);
     await appActionDispatcher('storeDelete', `subjects.${id}`);
+    this.removeSubjectFromList(id);
   }
 
   updateSubject(id: string, newData: Partial<SubjectItem>): void {

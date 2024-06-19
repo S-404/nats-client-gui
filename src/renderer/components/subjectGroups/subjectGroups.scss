@@ -3,7 +3,7 @@
 .subject-groups {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0 1em;
   width: 100%;
   height: 100%;
   overflow-y: hidden;
@@ -16,11 +16,11 @@
     margin-top: 1em;
 
     .my-button {
-      flex-basis: 30%;
+      flex-basis: 50%;
     }
 
     .my-input {
-      flex-basis: 60%;
+      flex-basis: 50%;
       margin-left: 1em;
     }
   }
@@ -28,7 +28,6 @@
   .subject-groups__group-list {
     display: flex;
     flex-direction: column;
-    width: 90%;
     height: 90%;
     padding-top: 1em;
     overflow-y: scroll;
@@ -44,6 +43,14 @@
       margin-bottom: .5em;
       padding: 0.6em 1em;
       position: relative;
+      cursor: pointer;
+
+      transition: border-color .5s ease;
+
+      &:hover {
+        border-color: $inputBorderFgColorHover;
+        transition: border-color .5s ease;
+      }
 
       .list-item__list-item-info {
         display: flex;
@@ -53,6 +60,8 @@
 
         .list-item-info__buttons {
           display: flex;
+          padding: 0 .5em;
+          cursor: default;
 
           .list-item-info__settings_button {
 
@@ -66,20 +75,7 @@
 
 
       .list-item__list-item-settings {
-        .list-item-settings__settings-panel {
-          margin-top: 1em;
-          padding: .5em;
-          border: 1px solid $hintColor;
-          border-radius: 4px;
 
-          .buttons {
-            margin-top: 1em;
-
-            .my-button {
-              margin-right: 1em;
-            }
-          }
-        }
       }
     }
   }

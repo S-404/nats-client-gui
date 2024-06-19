@@ -1,11 +1,11 @@
 import React, { FC, useMemo, useState } from 'react';
-import SubjectGroupsStore, { SubjectGroup, SubjectGroupStyle } from '#renderer/store/SubjectGroupsStore.ts';
+import SubjectGroupsStore from '#renderer/store/SubjectGroupsStore.ts';
 import SubjectGroupBadge from '#renderer/components/subjectGroups/SubjectGroupBadge.tsx';
 import { observer } from 'mobx-react';
 import MyButton from '#renderer/components/shared/buttons/myButton/MyButton.tsx';
 import MyInput from '#renderer/components/shared/inputs/myInput/MyInput.tsx';
 import IconButton from '#renderer/components/shared/buttons/iconButton/IconButton.tsx';
-import AttributeColorSetting from '#renderer/components/subjectGroups/AttributeColorSetting.tsx';
+import SubjectGroupSettings from '#renderer/components/subjectGroups/subjectGroupSettings/SubjectGroupSettings.tsx';
 
 import './subjectGroups.scss';
 
@@ -14,9 +14,9 @@ interface ISubjectGroups {
 }
 
 const SubjectGroups: FC<ISubjectGroups> = observer(({ onSelect }) => {
-  const { groups } = SubjectGroupsStore;
+  const { groups, selectedSubjectGroupId } = SubjectGroupsStore;
   const [filter, setFilter] = useState<string>('');
-  const [selectedGroupId, setSelectedGroupId] = useState<string>();
+
 
   const filteredGroups = useMemo(() => {
     if (!filter) {
@@ -35,29 +35,10 @@ const SubjectGroups: FC<ISubjectGroups> = observer(({ onSelect }) => {
     await SubjectGroupsStore.delete(groupId);
   };
 
-  const onChangeSubjectGroupValueHandler = async (groupId: string, attr: keyof Pick<SubjectGroup, 'name'>, value: string) => {
-    await SubjectGroupsStore.update(groupId, {
-      [attr]: value,
-    });
+  const clickSettingsButtonHandler = (groupId: string) => {
+    SubjectGroupsStore.setSelectedSubjectGroupId(groupId === selectedSubjectGroupId ? null : groupId);
   };
 
-  const onChangeColorHandler = async ({ group, key, value }: {
-    group: SubjectGroup,
-    key: keyof SubjectGroupStyle,
-    value: string
-  }) => {
-    await SubjectGroupsStore.update(group.id, {
-      style: {
-        ...group.style,
-        [key]: value,
-      },
-    });
-  };
-
-  const onSaveColorHandler = async (groupId: string) => {
-    await SubjectGroupsStore.save(groupId);
-    setSelectedGroupId(null);
-  };
 
   return (
     <div className={'subject-groups'}>
@@ -77,78 +58,38 @@ const SubjectGroups: FC<ISubjectGroups> = observer(({ onSelect }) => {
       <div className={'subject-groups__group-list'}>
         {filteredGroups.map(group => (
           <div
-            key={group.id}
+            key={`subject-group_${group.id}`}
             className={'group-list__list-item'}
+            onClick={() => onSelect(group.id)}
           >
             <div className={'list-item__list-item-info'}>
-              <div
-                onClick={() => onSelect(group.id)}
-                className={'list-item-info__badge'}
-              >
-                <SubjectGroupBadge
-                  group={group}
-                />
+              <div className={'list-item-info__badge'}>
+                <SubjectGroupBadge group={group}/>
               </div>
-              <div className={'list-item-info__buttons'}>
+              <div
+                onClick={e => e.stopPropagation()}
+                className={'list-item-info__buttons'}
+              >
                 <div className={'list-item-info__settings_button'}>
                   <IconButton
-                    onClick={() => setSelectedGroupId(group.id)}
+                    onClick={() => clickSettingsButtonHandler(group.id)}
                     iconType={'settings'}
                   />
                 </div>
-                <div className={'list-item-info__remove-button'}>
-                  <IconButton
-                    onClick={() => removeSubjectGroupButtonHandler(group.id)}
-                    iconType={'remove'}
-                    iconModifiers={['red']}
-                  />
-                </div>
+                {!(selectedSubjectGroupId === group.id) && (
+                  <div className={'list-item-info__remove-button'}>
+                    <IconButton
+                      onClick={() => removeSubjectGroupButtonHandler(group.id)}
+                      iconType={'remove'}
+                      iconModifiers={['red']}
+                    />
+                  </div>
+                )}
               </div>
             </div>
             <div className={'list-item__list-item-settings'}>
-              {group.id === selectedGroupId && (
-                <div className={'list-item-settings__settings-panel'}>
-                  <MyInput
-                    text={group.name}
-                    title={'Group Name'}
-                    maxLength={25}
-                    onChange={(e) => onChangeSubjectGroupValueHandler(
-                      group.id,
-                      'name',
-                      e.target.value,
-                    )}
-                  />
-                  <AttributeColorSetting
-                    attr={'color'}
-                    value={group.style.color}
-                    onChange={(color) => onChangeColorHandler({
-                      group,
-                      key: 'color',
-                      value: color,
-                    })}
-                  />
-                  <AttributeColorSetting
-                    attr={'backgroundColor'}
-                    value={group.style.backgroundColor}
-                    onChange={(color) => onChangeColorHandler({
-                      group,
-                      key: 'backgroundColor',
-                      value: color,
-                    })}
-                  />
-                  <div className={'buttons'}>
-                    <MyButton
-                      text={'Apply'}
-                      onClick={() => onSaveColorHandler(group.id)}
-                      color={'green'}
-                    />
-                    <MyButton
-                      text={'Cancel'}
-                      onClick={() => setSelectedGroupId(null)}
-                      color={'orange'}
-                    />
-                  </div>
-                </div>
+              {group.id === selectedSubjectGroupId && (
+                <SubjectGroupSettings group={group}/>
               )}
             </div>
           </div>
