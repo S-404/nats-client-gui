@@ -1,0 +1,26 @@
+@import '../../colors';
+
+.tabs {
+  user-select: none;
+  .tabs__tabs-item-list {
+    display: flex;
+    flex-direction: row;
+
+    .tabs-item-list__item {
+      border: 1px solid gray;
+      border-bottom-color: white;
+      padding: .5em 1em;
+      border-radius: 4px 1em 0 0;
+      color: gray;
+      cursor: pointer;
+      transition: border-color .5s ease-out;
+      &_selected {
+        color: white;
+        font-weight: bold;
+        border-bottom: none;
+        border-color: white;
+        transition: border-color .5s ease-out;
+      }
+    }
+  }
+}
