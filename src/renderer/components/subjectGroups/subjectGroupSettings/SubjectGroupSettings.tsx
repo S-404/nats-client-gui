@@ -93,10 +93,10 @@ const SubjectGroupSettings = observer(({ group }) => {
         <div className={'settings-panel__bottom'}>
 
           <div className={'buttons'}>
-
             <MyButton
               text={'Apply'}
               onClick={() => onSaveColorHandler()}
+              color={'green'}
             />
             <MyButton
               text={'Cancel'}
