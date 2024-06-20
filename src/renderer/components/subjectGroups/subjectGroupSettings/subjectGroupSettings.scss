@@ -21,13 +21,10 @@
     }
 
     .settings-panel__attribute {
-      display: flex;
+      display: grid;
+      grid-template-areas: 'name input picker';
+      grid-template-columns: 1fr 1fr;
       align-items: center;
-      justify-content: space-between;
-
-      .my-input {
-        width: 240px;
-      }
     }
 
 
@@ -36,7 +33,7 @@
       flex-direction: row;
       align-items: center;
       margin-top: 2em;
-      justify-content: space-between;
+      justify-content: end;
 
       .buttons {
         .my-button {

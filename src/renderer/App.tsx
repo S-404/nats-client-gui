@@ -3,6 +3,7 @@ import { MessagesTab } from '#renderer/components/messagesTab';
 import { PublishTab } from '#renderer/components/publishTab';
 import { ServersTab } from '#renderer/components/serversTab';
 import { LoggerTab } from '#renderer/components/loggerTab';
+import { AboutModal } from '#renderer/components/about/AboutModal.tsx';
 import { ReflexContainer, ReflexElement, ReflexSplitter} from 'react-reflex';
 
 import 'react-reflex/styles.css';
@@ -14,6 +15,8 @@ import './app.scss';
 function App() {
   return (
     <div className="app">
+
+      <AboutModal/>
 
       <div className="header">
         <ServersTab/>

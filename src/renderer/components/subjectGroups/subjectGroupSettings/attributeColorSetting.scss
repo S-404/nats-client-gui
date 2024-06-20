@@ -1,20 +1,19 @@
 .attribute-color-setting {
-  display: flex;
+  display: grid;
+  grid-template-areas: 'name input picker';
+  grid-template-columns: 1fr 0.5fr 0.5fr;
   align-items: center;
-  justify-content: space-between;
 
   .attribute-name {
-    flex: 4;
+    grid-area: name;
   }
 
   .color-picker {
-    flex: 2;
-    width: 100px;
-    padding: 0 1em;
+    grid-area: picker;
   }
 
   .color-input {
-    flex: 2;
+    grid-area: input;
     max-width: 100px;
   }
 }

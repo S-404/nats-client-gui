@@ -10,6 +10,7 @@ import search from '/icon-search.png'
 import x from '/icon-x.png';
 import scrollDown from '/icon-scroll-down.png';
 import settings from '/icon-settings.png';
+import grouped from '/icon-grouped.png';
 
 export const iconMap = {
   add,
@@ -24,7 +25,8 @@ export const iconMap = {
   clear: x,
   remove: x,
   scrollDown,
-  settings
+  settings,
+  grouped,
 }
 
 
