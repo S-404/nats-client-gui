@@ -2,7 +2,11 @@
 
 gui for nats.js client
 
-inspired by <a href="https://github.com/AlexxNB/natsman" target="_blank">natsman</a> 
+repository: https://github.com/S-404/nats-client-gui
+
+releases: https://github.com/S-404/nats-client-gui/releases
+
+inspired by <a href="https://github.com/AlexxNB/natsman" target="_blank">natsman</a>
 
 ![img_6.png](.github/readme/img_6.png)
 
