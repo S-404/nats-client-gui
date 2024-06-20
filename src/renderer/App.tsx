@@ -9,11 +9,14 @@ import 'react-reflex/styles.css';
 import './styles/react-reflex-override.css';
 import './styles/main.css';
 import './app.scss';
+import AboutModal from '#renderer/components/about/AboutModal.tsx';
 
 
 function App() {
   return (
     <div className="app">
+
+      <AboutModal/>
 
       <div className="header">
         <ServersTab/>

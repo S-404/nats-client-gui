@@ -1,0 +1,20 @@
+.about-container {
+  h1 {
+    text-transform: uppercase;
+  }
+
+  article {
+    p {
+      margin-bottom: 1em;
+      display: flex;
+
+      a {
+        margin-left: 1em;
+
+      }
+      .copy-button {
+        margin-left: .5em;
+      }
+    }
+  }
+}
