@@ -64,15 +64,40 @@ function useLoading() {
   background: #000;
   z-index: 9;
 }
-.app-loader{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  box-shadow: 2em 2em 12em 1em #b831f7, -2em -2em 12em 1em #46c0f6;
-  border-radius: 50%;
+
+.lds-dual-ring {
+  color: white
 }
-    `;
+
+.lds-dual-ring,
+.lds-dual-ring:after {
+  box-sizing: border-box;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6.4px solid currentColor;
+  border-color: currentColor transparent currentColor transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+`;
   const oStyle = document.createElement('style');
   const oDiv = document.createElement('div');
 
@@ -80,12 +105,8 @@ function useLoading() {
   oStyle.innerHTML = styleContent;
   oDiv.className = 'app-loading-wrap';
 
-  const oIcon = document.createElement('img')
-  oIcon.src = '/electron-vite.animate.svg'
-  oIcon.alt= 'loading...'
   const oIconDiv = document.createElement('div')
-  oIconDiv.className = 'app-loader'
-  oIconDiv.append(oIcon)
+  oIconDiv.className = 'lds-dual-ring'
 
   oDiv.append(oIconDiv)
 
@@ -106,8 +127,8 @@ function useLoading() {
 const { appendLoading, removeLoading } = useLoading();
 domReady().then(appendLoading);
 
-window.onmessage = ev => {
+window.onmessage = (ev: { data: { payload: string; }; }) => {
   ev.data.payload === 'removeLoading' && removeLoading();
 };
 
-setTimeout(removeLoading, 4999);
+setTimeout(removeLoading, 3000);
