@@ -1,0 +1,17 @@
+
+.about-container h1 {
+    text-transform: uppercase;
+}
+
+.about-container article p {
+    margin-bottom: 1em;
+    display: flex;
+}
+
+.about-container article p a {
+    margin-left: 1em;
+}
+
+.about-container article p .copy-button {
+    margin-left: .5em;
+}
