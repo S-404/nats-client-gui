@@ -73,6 +73,7 @@ export const PublishTab: FC = observer(() => {
   };
 
   const subscribe = () => {
+    updateSubject('method', 'subscribe');
     NatsClientStore.addSubscriber(selectedSubject?.id);
     appActionDispatcher('natsSubscribe', { id: selectedSubject?.id, subject });
   };
