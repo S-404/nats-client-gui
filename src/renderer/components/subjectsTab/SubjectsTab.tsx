@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { observer } from 'mobx-react';
 import TabContainer from '../shared/tabContainer/TabContainer.tsx';
 import NatsClientStore from '#renderer/store/NatsClientStore.ts';
@@ -16,6 +16,7 @@ import './subjectsTab.scss';
 export const SubjectsTab: FC = observer(() => {
   const { subjects, selectedSubject } = SubjectsStore;
   const { isOpened, open, close } = useModal();
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   const selectSubject = (id: string) => {
     SubjectsStore.setSelectedSubject(id);
@@ -28,10 +29,6 @@ export const SubjectsTab: FC = observer(() => {
 
   const removeFromList = (id: string) => {
     SubjectsStore.removeSubjectFromList(id);
-  };
-
-  const removeFromStore = (id: string) => {
-    SubjectsStore.removeSubjectFromStore(id);
   };
 
   const saveToStore = (subject: SubjectItem) => {
@@ -58,6 +55,11 @@ export const SubjectsTab: FC = observer(() => {
     }
   };
 
+  const sortSubjects = () => {
+    SubjectsStore.sort(sortDirection);
+    setSortDirection((prevState) => prevState === 'asc' ? 'desc' : 'asc');
+  };
+
   return (
     <TabContainer name={'Subjects'}>
       <div className={'subjects-tab-container'}>
@@ -80,6 +82,12 @@ export const SubjectsTab: FC = observer(() => {
             onClick={clearSubjects}
             iconType={'broom'}
             title={'Clear Subject List'}
+            bordered
+          />
+          <IconButton
+            onClick={sortSubjects}
+            iconType={'list'}
+            title={'Sort'}
             bordered
           />
         </div>
