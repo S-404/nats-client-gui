@@ -115,6 +115,12 @@ class SubjectsStore {
 
     this.setSelectedSubject(savedSubject.id);
   }
+
+  sort(direction: 'asc' | 'desc') {
+    this.subjects.sort((a, b) => {
+      return direction === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
+    });
+  }
 }
 
 export default new SubjectsStore();

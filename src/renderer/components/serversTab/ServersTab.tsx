@@ -101,7 +101,7 @@ export const ServersTab: FC = observer(() => {
               title={'Token'}
               text={currentConnection.token}
               disabled={isConnected}
-              isSecret={isConnected && true}
+              isSecret={true}
               onChange={(e) => updateConnection('token', e.target.value)}
             />
           </div>
